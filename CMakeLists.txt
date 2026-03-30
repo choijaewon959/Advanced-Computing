@@ -11,4 +11,11 @@ add_executable(Advanced-Computing
         calculation.h
 )
 
+add_executable(calculation_test
+        calculation_test.cpp
+        calculation.cpp
+        calculation.h
+)
+
 target_include_directories(Advanced-Computing PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(calculation_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
