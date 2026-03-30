@@ -15,7 +15,16 @@ void multiply_mv_row_major(const double* matrix, int rows, int cols, const doubl
         result[i]=sum;
     }
 }
-
+void multiply_mv_col_major(const double* matrix, int rows, int cols, const double* vector, double* result) {
+    for (int i=0; i<rows; i++) {
+        result[i] = 0.0;
+    }
+    for (int j=0; j<cols; j++) {
+        for (int i=0; i<rows; i++) {
+            result[i] += matrix[i + j*rows] * vector[j];
+        }
+    }
+}
 
 void multiply_mm_naive(const double* matrixA, int rowsA, int colsA, const double* matrixB, int rowsB, int colsB, double* result) {
     if (!matrixA || !matrixB || !result) {
