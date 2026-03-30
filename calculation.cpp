@@ -3,11 +3,41 @@
 //
 
 #include "calculation.h"
+
+#include <stdexcept>
+
 void multiply_mv_row_major(const double* matrix, int rows, int cols, const double* vector, double* result) {
     for (int i=0; i<rows; i++) {
         for (int j=0; j<cols; j++) {
             int idx = i*cols + j;
             result[idx] = matrix[idx] * vector[j];
+        }
+    }
+}
+
+
+void multiply_mm_naive(const double* matrixA, int rowsA, int colsA, const double* matrixB, int rowsB, int colsB, double* result) {
+    if (colsA != rowsB) {
+        throw std::runtime_error("Dimensions incompatible");
+    }
+
+    for (int i=0; i < rowsA; ++i) {
+        for (int j=0; j < colsB; ++j) {
+            for (int k=0; k < colsA; ++k) {
+                result[i * colsB + j] += matrixA[i * colsA + k] * matrixB[k * colsB + j];
+            }
+        }
+    }
+}
+
+void multiply_mm_transposed_b(const double* matrixA, int rowsA, int colsA, const double* matrixB, int rowsB, int colsB, double* result) {
+    if (colsA != colsB) {
+        throw std::runtime_error("Dimensions incompatible");
+    }
+    for (int i = 0; i < rowsA; ++i) {
+        for (int j = 0; j < colsB; ++j) {
+            for (int k = 0; k < colsA; ++k) {
+                result[i * rowsB + j] += matrixA[i * colsA + k] * matrixB[j * colsB + k];            }
         }
     }
 }
