@@ -109,39 +109,50 @@ void test_multiply_mm_naive() {
 }
 
 void test_multiply_mm_transposed_b_basic() {
-    double* A = new double[6];
-    double* B = new double[6];
-    double* result = new double[4];
+    int rowsA = 2, colsA = 3;
+    int rowsBT = 2, colsBT = 3;
 
-    // initialize
-    double A_vals[] = {1,2,3, 4,5,6};
-    double B_vals[] = {7,8,9, 10,11,12};
+    double* A = new double[rowsA * colsA];
+    double* B_T = new double[rowsBT * colsBT];
+    double* result = new double[rowsA * rowsBT];
 
-    for (int i = 0; i < 6; ++i) {
+    double A_vals[] = {
+        1, 2, 3,
+        4, 5, 6
+    };
+
+    double B_T_vals[] = {
+        7, 9, 11,
+        8, 10, 12
+    };
+
+    for (int i = 0; i < rowsA * colsA; ++i) {
         A[i] = A_vals[i];
-        B[i] = B_vals[i];
     }
-
-    for (int i = 0; i < 4; ++i) {
+    for (int i = 0; i < rowsBT * colsBT; ++i) {
+        B_T[i] = B_T_vals[i];
+    }
+    for (int i = 0; i < rowsA * rowsBT; ++i) {
         result[i] = 0.0;
     }
 
-    multiply_mm_transposed_b(A, 2, 3, B, 2, 3, result);
+    multiply_mm_transposed_b(A, rowsA, colsA, B_T, rowsBT, colsBT, result);
 
-    double expected[] = {50, 68, 122, 167};
+    double expected[] = {
+        58, 64,
+        139, 154
+    };
 
-    for (int i = 0; i < 4; ++i) {
+    for (int i = 0; i < rowsA * rowsBT; ++i) {
         assert(result[i] == expected[i]);
     }
 
-    // cleanup
     delete[] A;
-    delete[] B;
+    delete[] B_T;
     delete[] result;
 
     std::cout << "test_multiply_mm_transposed_b_basic passed...\n";
 }
-
 
 int main() {
     test_multiply_mv_row_major();
