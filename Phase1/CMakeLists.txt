@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(Advanced-Computing)
+project(Phase1)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(Advanced-Computing
+add_executable(Phase1
         main.cpp
         calculation.cpp
         calculation.h
@@ -17,5 +17,5 @@ add_executable(calculation_test
         calculation.h
 )
 
-target_include_directories(Advanced-Computing PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
-target_include_directories(calculation_test PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(Phase1 PRIVATE ..)
+target_include_directories(calculation_test PRIVATE ..)
