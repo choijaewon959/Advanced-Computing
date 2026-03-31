@@ -45,7 +45,7 @@ void test_multiply_mv_col_major() {
     double vec_vals[] = {1,2,3};
 
     std::copy(A_vals, A_vals + rowsA*colsA, A);
-    std::copy(vec_vals, vec+colsA, vec);
+    std::copy(vec_vals, vec_vals+colsA, vec);
     multiply_mv_col_major(A, rowsA, colsA, vec, result);
 
     double expected[] = {22, 28};
