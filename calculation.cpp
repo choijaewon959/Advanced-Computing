@@ -7,6 +7,13 @@
 #include <stdexcept>
 
 void multiply_mv_row_major(const double* matrix, int rows, int cols, const double* vector, double* result) {
+    if (!matrix || !result || !vector) {
+        throw std::invalid_argument("Null pointer passed to multiply_mv_row_major");
+    }
+    if (rows <= 0 || cols <= 0) {
+        throw std::invalid_argument("matrix dimensions must be positive");
+    }
+
     for (int i=0; i<rows; i++) {
         double sum=0.0;
         for (int j=0; j<cols; j++) {
@@ -16,6 +23,12 @@ void multiply_mv_row_major(const double* matrix, int rows, int cols, const doubl
     }
 }
 void multiply_mv_col_major(const double* matrix, int rows, int cols, const double* vector, double* result) {
+    if (!matrix || !result || !vector) {
+        throw std::invalid_argument("Null pointer passed to multiply_mv_col_major");
+    }
+    if (rows <= 0 || cols <= 0) {
+        throw std::invalid_argument("matrix dimensions must be positive");
+    }
     for (int i=0; i<rows; i++) {
         result[i] = 0.0;
     }
