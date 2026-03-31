@@ -2,7 +2,10 @@
 // Created by Mohammed RHAZI on 30/03/2026.
 //
 
+
+#include <vector>
 #include "benchmark.h"
+
 stats benchmark_mv_row_major(const double*A, int rowsA, int colsA, const double* vec, double* result, int runs) {
     using clock = std::chrono::high_resolution_clock;
     std::vector<double> times;
