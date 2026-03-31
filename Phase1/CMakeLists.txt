@@ -10,12 +10,16 @@ add_executable(Phase1
         main.cpp
         calculation.cpp
         calculation.h
+        benchmark.cpp
+        benchmark.h
 )
 
 add_executable(calculation_test
         calculation_test.cpp
         calculation.cpp
         calculation.h
+        benchmark.cpp
+        benchmark.h
 )
 
 target_include_directories(Phase1 PRIVATE ..)
