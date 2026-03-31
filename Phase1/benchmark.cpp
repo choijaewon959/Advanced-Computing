@@ -110,6 +110,13 @@ stats benchmark_mm_transposed_b(const double* matrixA, int rowsA, int colsA, con
 
     return {mean, stddev};
 }
+double* allocate_aligned(std::size_t count, std::size_t alignment = 32) {
+    void* ptr= nullptr;
+    if (posix_memalign(&ptr, alignment, count * sizeof(double)) != 0) {
+        throw std::bad_alloc();
+    }
+    return static_cast<double*>(ptr);
+}
 void run_benchmarks() {
     int sizes[] = {64, 128, 256, 512, 1024, 2048};
     std::cout << "N\tRowMean(ms)\tRowStd(ms)\tColMean(ms)\tColStd(ms)\tmmNMean(ms)\tmmNStd(ms)\tmmTBMean(ms)\tmmTBStd(ms)\n" << std::endl;
