@@ -29,6 +29,22 @@ long long sumMatrixBasic(const std::vector<std::vector<int>>& matrix) {
     return sum;
 }
 
+// optimized summation function
+long long sumMatrixOptimized(const std::vector<std::vector<int>>& matrix) {
+    long long sum = 0;
+
+    for (int i = 0; i < SIZE; ++i) {
+        const int* ptr = matrix[i].data();  // accessing contiguous data
+        const int* end = ptr + SIZE;
+
+        while (ptr < end) {
+            sum += *ptr++;      // unrolling loop / direct access
+        }
+    }
+
+    return sum;
+}
+
 int main() {
     // Generate a large random matrix
     std::vector<std::vector<int>> matrix(SIZE, std::vector<int>(SIZE));
@@ -51,7 +67,7 @@ int main() {
 
     // Students will implement their optimized version here
     auto start_optimized = std::chrono::high_resolution_clock::now();
-    long long optimized_sum = 0; // Students will calculate this
+    long long optimized_sum = sumMatrixOptimized(matrix); // Students will calculate this
     auto end_optimized = std::chrono::high_resolution_clock::now();
     auto duration_optimized = std::chrono::duration_cast<std::chrono::milliseconds>(end_optimized - start_optimized);
 
