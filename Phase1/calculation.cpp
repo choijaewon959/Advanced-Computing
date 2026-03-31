@@ -22,6 +22,7 @@ void multiply_mv_row_major(const double* matrix, int rows, int cols, const doubl
         result[i]=sum;
     }
 }
+
 void multiply_mv_col_major(const double* matrix, int rows, int cols, const double* vector, double* result) {
     if (!matrix || !result || !vector) {
         throw std::invalid_argument("Null pointer passed to multiply_mv_col_major");
