@@ -6,6 +6,39 @@
 #include <cassert>
 #include "calculation.h"
 
+void test_multiply_mv_row_major() {
+    int rowsA = 2;
+    int colsA = 3;
+
+    double* A = new double[rowsA * colsA];
+    double* V = new double[colsA];
+    double* result = new double[rowsA];
+
+    double A_vals[] = {1,2,3,4,5,6};
+    double V_vals[] = {1,2,3};
+
+    for (int i =0; i<rowsA * colsA; ++i) {
+        A[i]=A_vals[i];
+    }
+    for (int i=0; i<colsA; ++i) {
+        V[i]=V_vals[i];
+    }
+    for (int i=0; i<rowsA; ++i) {
+        result[i]=0.0;
+    }
+
+    multiply_mv_row_major(A, rowsA, colsA, V, result);
+    double expected[] = {14,32};
+    for (int i = 0; i<rowsA; ++i) {
+        assert(result[i] == expected[i]);
+    }
+
+    delete[] A;
+    delete[] V;
+    delete[] result;
+
+    std::cout << "test_test_multiply_mv_row_major_passed ...\n";
+}
 
 void test_multiply_mm_naive() {
     int rowsA = 2, colsA = 3;
@@ -90,6 +123,7 @@ void test_multiply_mm_transposed_b_basic() {
 
 
 int main() {
+    test_multiply_mv_row_major();
     test_multiply_mm_naive();
     test_multiply_mm_transposed_b_basic();
 
