@@ -11,33 +11,54 @@ void test_multiply_mv_row_major() {
     int colsA = 3;
 
     double* A = new double[rowsA * colsA];
-    double* V = new double[colsA];
+    double* vec = new double[colsA];
     double* result = new double[rowsA];
 
     double A_vals[] = {1,2,3,4,5,6};
     double V_vals[] = {1,2,3};
 
-    for (int i =0; i<rowsA * colsA; ++i) {
-        A[i]=A_vals[i];
-    }
-    for (int i=0; i<colsA; ++i) {
-        V[i]=V_vals[i];
-    }
-    for (int i=0; i<rowsA; ++i) {
-        result[i]=0.0;
-    }
+    std::copy(A_vals, A_vals + rowsA*colsA, A);
+    std::copy(V_vals, V_vals + colsA, vec);
 
-    multiply_mv_row_major(A, rowsA, colsA, V, result);
+    multiply_mv_row_major(A, rowsA, colsA, vec, result);
     double expected[] = {14,32};
     for (int i = 0; i<rowsA; ++i) {
-        assert(result[i] == expected[i]);
+        assert(std::abs(result[i] - expected[i]) < 1e-9);
     }
 
     delete[] A;
-    delete[] V;
+    delete[] vec;
     delete[] result;
 
-    std::cout << "test_test_multiply_mv_row_major_passed ...\n";
+    std::cout << "test_multiply_mv_row_major_passed ...\n";
+}
+
+void test_multiply_mv_col_major() {
+    int rowsA = 2;
+    int colsA = 3;
+
+    double* A = new double[rowsA * colsA];
+    double* vec = new double[colsA];
+    double* result = new double[rowsA];
+
+    double A_vals[] = {1,2,3,4,5,6};
+    double vec_vals[] = {1,2,3};
+
+    std::copy(A_vals, A_vals + rowsA*colsA, A);
+    std::copy(vec_vals, vec+colsA, vec);
+    multiply_mv_col_major(A, rowsA, colsA, vec, result);
+
+    double expected[] = {22, 28};
+
+    for (int i=0; i<rowsA; ++i) {
+        assert(abs(result[i] - expected[i]) < 1e-9);
+    }
+
+    delete[] A;
+    delete[] vec;
+    delete[] result;
+
+    std::cout << "test_multiply_mv_col_major passed ... \n";
 }
 
 void test_multiply_mm_naive() {
@@ -124,6 +145,7 @@ void test_multiply_mm_transposed_b_basic() {
 
 int main() {
     test_multiply_mv_row_major();
+    test_multiply_mv_col_major();
     test_multiply_mm_naive();
     test_multiply_mm_transposed_b_basic();
 
