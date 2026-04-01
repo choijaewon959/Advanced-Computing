@@ -36,5 +36,4 @@ void run_benchmarks_mm_tb_blocked_32();
 
 void run_benchmarks_mm_tb_blocked_64();
 
-
 #endif //ADVANCED_COMPUTING_BENCHMARK_H
