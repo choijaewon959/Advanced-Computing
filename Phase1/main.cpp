@@ -7,12 +7,16 @@
 #include <vector>
 #include <random>
 
+#include "benchmark.h"
 #include "calculation.h"
 
-const int MATRIX_ROW_SIZE = 2048;
+const int MATRIX_ROW_SIZE = 1024;
 const int MATRIX_COL_SIZE = 1024;
 
 int main() {
+    //run_benchmarks();
+    run_benchmarks_aligned();
+    /*
     // Generate a large random matrix
     std::random_device rd;
     std::mt19937 gen(rd());
@@ -85,4 +89,5 @@ int main() {
     delete[] result;
 
     return 0;
+    */
 }

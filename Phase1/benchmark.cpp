@@ -110,7 +110,7 @@ stats benchmark_mm_transposed_b(const double* matrixA, int rowsA, int colsA, con
 
     return {mean, stddev};
 }
-double* allocate_aligned(std::size_t count, std::size_t alignment = 32) {
+double* allocate_aligned(std::size_t count, std::size_t alignment = 64) {
     void* ptr= nullptr;
     if (posix_memalign(&ptr, alignment, count * sizeof(double)) != 0) {
         throw std::bad_alloc();
@@ -133,9 +133,9 @@ void run_benchmarks() {
         for (int i=0; i<N*N; ++i) B[i]=1.0;
         for (int i=0; i<N; ++i) vec[i]=1.0;
 
-        if (N<=128) runs = 1000;
-        else if (N<=256) runs = 100;
-        else runs = 10;
+        if (N<=128) runs = 10000;
+        else if (N<=256) runs = 1000;
+        else runs = 2;
 
         stats row = benchmark_mv_row_major(A, N, N, vec, result_mv, runs);
         stats col = benchmark_mv_col_major(A, N, N, vec, result_mv, runs);
@@ -151,10 +151,66 @@ void run_benchmarks() {
                   << mmN.stddev * 1e3 << "\t"
                   << mmTb.mean * 1e3 << "\t"
                   << mmTb.stddev * 1e3 << "\n";
+
         delete[] A;
         delete[] B;
         delete[] vec;
         delete[] result_mv;
         delete[] result_mm;
+    }
+}
+void run_benchmarks_aligned() {
+    int sizes[] = {64, 128, 256, 512, 1024, 2048};
+    std::cout << "N\tMV default mean/std\t|MV aligned mean/std\t|MM default mean/std\t|MM aligned mean/std\n" << std::endl;
+
+    for (int N : sizes) {
+        double* A = allocate_aligned(N*N);
+        double* B = allocate_aligned(N*N);
+        double* result_mv = allocate_aligned(N);
+        double* result_mm = allocate_aligned(N*N);
+        double* vec = allocate_aligned(N);
+        int runs;
+
+        for (int i=0; i<N*N; ++i) A[i] = 1.0;
+        for (int i=0; i<N*N; ++i) B[i] = 1.0;
+        for (int i=0; i<N; ++i) vec[i] = 1.0;
+
+        if (N<=128) runs = 10000;
+        else if (N<=256) runs = 100;
+        else runs = 2;
+
+        stats row = benchmark_mv_row_major(A, N, N, vec, result_mv, runs);
+        stats mmTb = benchmark_mm_transposed_b(A,N,N,B,N,N,result_mm,runs);
+
+        double* A_default = new double[N*N];
+        double* B_default = new double[N*N];
+        double* vec_default = new double[N];
+        double* result_mv_default = new double[N];
+        double* result_mm_default = new double[N*N];
+
+        stats row_default = benchmark_mv_row_major(A_default, N, N, vec_default, result_mv_default, runs);
+        stats mmTb_default = benchmark_mm_transposed_b(A_default,N,N,B_default,N,N,result_mm_default,runs);
+
+        std::cout << N << "\t"
+                  << row_default.mean * 1e3 << "\t"
+                  << row_default.stddev * 1e3 << "|"
+                  << row.mean * 1e3 << "\t"
+                  << row.stddev * 1e3 << "|"
+                  << mmTb_default.mean * 1e3 << "\t"
+                  << mmTb_default.stddev * 1e3 << "|"
+                  << mmTb.mean * 1e3 << "\t"
+                  << mmTb.stddev * 1e3 << "\n";
+
+        delete[] A;
+        delete[] B;
+        delete[] result_mv;
+        delete[] result_mm;
+        delete[] vec;
+
+        delete[] A_default;
+        delete[] B_default;
+        delete[] result_mv_default;
+        delete[] result_mm_default;
+        delete[] vec_default;
     }
 }
