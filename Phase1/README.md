@@ -10,7 +10,7 @@ This project is to implement and optimize linear algebra operations(matrix-vecto
 2. Jae Won (Jay) Choi 12506596
 
 ## Build Instructions
-
+- 
 
 ## Part3. Discussion Questions
 
@@ -21,14 +21,21 @@ This project is to implement and optimize linear algebra operations(matrix-vecto
 - Pointer is preferred to traverse matrix or flexibly "striding" between elements within the containers whereas reference is preferred when passing the operands into mathematical functions or operating in single element.
 
 ### 2. Row-major vs Column-major and Cache Locality on matrix-vector and matrix-matrix
-
+- Matrix-Vector
+  - As C++ usually stores the matrix in row-major, where the adjacent elements are contiguous in the heap memory, Row-major computation is expected to be faster. 
+  - However, in this assignment's setting, we assume column-major matrix is accessing elements that are also contiguous in heap memory, and therefore there is no expected difference in overall running time.
+- Matrix-Matrix
+  
+  - For naive approach, matrix multiplication loops from left to right on the row of the left matrix and top to bottom on the column of the right matrix. Here, we need to "jump" from one index to another when we are looping from top to bottom on the second matrix.
+  - To deal with this, we transpose the matrix before passing it into the function to keep the cache locality by making jumpy stride of the access of the element in a more contiguous manner which improves the runtime.
+  
 ### 3. CPU Caches(L1, L2, L3) and temporal/spatial locality
-- | Cache   | Size       | Speed        | Scope               |
-  | ------- | ---------- | ------------ | ------------------- |
-  | **L1**  | ~32KB      | 🔥 fastest   | per core            |
-  | **L2**  | ~256KB–1MB | fast         | per core            |
-  | **L3**  | ~10–30MB   | slower       | shared across cores |
-  | **RAM** | GBs        | 🐢 very slow | global              |
+- | Cache   | Size       | Speed       | Scope               |
+  | ------- | ---------- | ----------- | ------------------- |
+  | **L1**  | ~32KB      | fastest   | per core            |
+  | **L2**  | ~256KB–1MB | fast        | per core            |
+  | **L3**  | ~10–30MB   | slower      | shared across cores |
+  | **RAM** | GBs        | very slow | global              |
 
   - Cache Lines
   Memory is not fetched one at a time. CPU loads cache lines (~64 bytes)
@@ -39,16 +46,16 @@ This project is to implement and optimize linear algebra operations(matrix-vecto
     - **Spatial locality** 
   
       If the data is accessed in one memory location, nearby locations will be used soon.
-      - **How we exploited locality of memory**
+    - **How we exploited locality of memory**
    
-        - Temporal Locality
-        ```cpp
-              
-        ```
-        - Spatial Locality
-        ```cpp
-            
-        ```
+      - Temporal Locality
+      ```cpp
+          result[i] += matrix[...] * vector[j];
+      ```
+      - Spatial Locality
+      ```cpp
+          sum += matrix[i*cols + j] * vector[j];
+      ```
 ### 4. Memory Alignment
 ### 5. Compiler Optimization
 - Compiler Optimization transforms my code to run faster without changing any behaviour.

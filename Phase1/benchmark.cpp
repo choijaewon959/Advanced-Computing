@@ -259,6 +259,7 @@ void run_benchmarks_mm_tb_blocked_16() {
     for (int N : sizes) {
         double* A = new double[N*N];
         double* B = new double[N*N];
+        double* result_mm_naive = new double[N*N];
         double* result_mm_tb = new double[N*N];
         double* result_mm_blocked = new double[N*N];
 
@@ -275,10 +276,13 @@ void run_benchmarks_mm_tb_blocked_16() {
         else if (N<=512) runs = 100;
         else runs = 20;
 
+        stats mmnaive = benchmark_mm_naive(A, N, N, B, N, N, result_mm_naive, runs);
         stats mmTb = benchmark_mm_transposed_b(A,N,N,B,N,N,result_mm_tb, runs);
         stats mmBlock16 = benchmark_mm_blocked(A,B,result_mm_blocked,N,16,runs);
 
         std::cout << N << "\t"
+                << mmnaive.mean * 1e3 << "\t"
+                << mmnaive.stddev * 1e3 << "\t"
                  << mmTb.mean * 1e3 << "\t"
                  << mmTb.stddev * 1e3 << "\t"
                  << mmBlock16.mean * 1e3 << "\t"
@@ -286,6 +290,7 @@ void run_benchmarks_mm_tb_blocked_16() {
 
         delete[] A;
         delete[] B;
+        delete[] result_mm_naive;
         delete[] result_mm_tb;
         delete[] result_mm_blocked;
     }
@@ -297,6 +302,7 @@ void run_benchmarks_mm_tb_blocked_32() {
     for (int N : sizes) {
         double* A = new double[N*N];
         double* B = new double[N*N];
+        double* result_mm_naive = new double[N*N];
         double* result_mm_tb = new double[N*N];
         double* result_mm_blocked = new double[N*N];
 
@@ -313,10 +319,13 @@ void run_benchmarks_mm_tb_blocked_32() {
         else if (N<=512) runs = 100;
         else runs = 20;
 
+        stats mmnaive = benchmark_mm_naive(A, N, N, B, N, N, result_mm_naive, runs);
         stats mmTb = benchmark_mm_transposed_b(A,N,N,B,N,N,result_mm_tb, runs);
         stats mmBlock32 = benchmark_mm_blocked(A,B,result_mm_blocked,N,32,runs);
 
         std::cout << N << "\t"
+                << mmnaive.mean * 1e3 << "\t"
+                << mmnaive.stddev * 1e3 << "\t"
                  << mmTb.mean * 1e3 << "\t"
                  << mmTb.stddev * 1e3 << "\t"
                  << mmBlock32.mean * 1e3 << "\t"
@@ -324,6 +333,7 @@ void run_benchmarks_mm_tb_blocked_32() {
 
         delete[] A;
         delete[] B;
+        delete[] result_mm_naive;
         delete[] result_mm_tb;
         delete[] result_mm_blocked;
     }
@@ -335,6 +345,7 @@ void run_benchmarks_mm_tb_blocked_64() {
     for (int N : sizes) {
         double* A = new double[N*N];
         double* B = new double[N*N];
+        double* result_mm_naive = new double[N*N];
         double* result_mm_tb = new double[N*N];
         double* result_mm_blocked = new double[N*N];
 
@@ -351,10 +362,13 @@ void run_benchmarks_mm_tb_blocked_64() {
         else if (N<=512) runs = 100;
         else runs = 20;
 
+        stats mmnaive = benchmark_mm_naive(A, N, N, B, N, N, result_mm_naive, runs);
         stats mmTb = benchmark_mm_transposed_b(A,N,N,B,N,N,result_mm_tb, runs);
         stats mmBlock64 = benchmark_mm_blocked(A,B,result_mm_blocked,N,64,runs);
 
         std::cout << N << "\t"
+                 << mmnaive.mean * 1e3 << "\t"
+                 << mmnaive.stddev * 1e3 << "\t"
                  << mmTb.mean * 1e3 << "\t"
                  << mmTb.stddev * 1e3 << "\t"
                  << mmBlock64.mean * 1e3 << "\t"
@@ -362,6 +376,7 @@ void run_benchmarks_mm_tb_blocked_64() {
 
         delete[] A;
         delete[] B;
+        delete[] result_mm_naive;
         delete[] result_mm_tb;
         delete[] result_mm_blocked;
     }
