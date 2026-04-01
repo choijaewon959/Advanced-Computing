@@ -254,7 +254,7 @@ void run_benchmarks_aligned() {
 }
 void run_benchmarks_mm_tb_blocked() {
     int sizes[] = {64, 128, 256, 512, 1024, 2048};
-    std::cout << "N\tMM Tb mean\tMM Tb std\tMM blocked 16 mean\tMM blocked 16 std\tMM blocked 32 mean\tMM blocked 32 std\tMM blocked 64 mean\tMM blocked 64 std" << std::endl;
+        std::cout << "N\tMM Tb mean\tMM Tb std\tMM blocked 16 mean\tMM blocked 16 std\tMM blocked 32 mean\tMM blocked 32 std\tMM blocked 64 mean\tMM blocked 64 std" << std::endl;
 
     for (int N : sizes) {
         double* A = new double[N*N];
