@@ -15,7 +15,7 @@ const int MATRIX_COL_SIZE = 1024;
 
 int main() {
     //run_benchmarks();
-    run_benchmarks_aligned();
+    run_benchmarks_mm_tb_blocked();
     /*
     // Generate a large random matrix
     std::random_device rd;

@@ -22,10 +22,14 @@ stats benchmark_mm_naive(const double* matrixA, int rowsA, int colsA, const doub
 
 stats benchmark_mm_transposed_b(const double* matrixA, int rowsA, int colsA, const double* matrixB, int rowsB, int colsB, double* result, int runs);
 
+stats benchmark_mm_blocked(const double* matrixA, const double* matrixB, double* matrixC, int N, int BS, int runs);
+
 double* allocate_aligned(std::size_t count, std::size_t alignment);
 
 void run_benchmarks();
 
 void run_benchmarks_aligned();
+
+void run_benchmarks_mm_tb_blocked();
 
 #endif //ADVANCED_COMPUTING_BENCHMARK_H
