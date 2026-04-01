@@ -30,6 +30,11 @@ void run_benchmarks();
 
 void run_benchmarks_aligned();
 
-void run_benchmarks_mm_tb_blocked();
+void run_benchmarks_mm_tb_blocked_16();
+
+void run_benchmarks_mm_tb_blocked_32();
+
+void run_benchmarks_mm_tb_blocked_64();
+
 
 #endif //ADVANCED_COMPUTING_BENCHMARK_H

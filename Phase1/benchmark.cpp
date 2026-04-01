@@ -252,9 +252,9 @@ void run_benchmarks_aligned() {
         delete[] vec_default;
     }
 }
-void run_benchmarks_mm_tb_blocked() {
+void run_benchmarks_mm_tb_blocked_16() {
     int sizes[] = {64, 128, 256, 512, 1024, 2048};
-        std::cout << "N\tMM Tb mean\tMM Tb std\tMM blocked 16 mean\tMM blocked 16 std\tMM blocked 32 mean\tMM blocked 32 std\tMM blocked 64 mean\tMM blocked 64 std" << std::endl;
+        std::cout << "N\tMM Tb mean\tMM Tb std\tMM blocked 16 mean\tMM blocked 16 std" << std::endl;
 
     for (int N : sizes) {
         double* A = new double[N*N];
@@ -276,20 +276,89 @@ void run_benchmarks_mm_tb_blocked() {
         else runs = 20;
 
         stats mmTb = benchmark_mm_transposed_b(A,N,N,B,N,N,result_mm_tb, runs);
-
         stats mmBlock16 = benchmark_mm_blocked(A,B,result_mm_blocked,N,16,runs);
-        stats mmBlock32 = benchmark_mm_blocked(A,B,result_mm_blocked,N,32,runs);
-        stats mmBlock64 = benchmark_mm_blocked(A,B,result_mm_blocked,N,64,runs);
 
         std::cout << N << "\t"
                  << mmTb.mean * 1e3 << "\t"
                  << mmTb.stddev * 1e3 << "\t"
                  << mmBlock16.mean * 1e3 << "\t"
-                 << mmBlock16.stddev * 1e3 << "\t"
+                 << mmBlock16.stddev * 1e3 << "\n";
+
+        delete[] A;
+        delete[] B;
+        delete[] result_mm_tb;
+        delete[] result_mm_blocked;
+    }
+}
+void run_benchmarks_mm_tb_blocked_32() {
+    int sizes[] = {64, 128, 256, 512, 1024, 2048};
+    std::cout << "N\tMM Tb mean\tMM Tb std\tMM blocked 32 mean\tMM blocked 32 std" << std::endl;
+
+    for (int N : sizes) {
+        double* A = new double[N*N];
+        double* B = new double[N*N];
+        double* result_mm_tb = new double[N*N];
+        double* result_mm_blocked = new double[N*N];
+
+        int runs;
+        for (int i=0; i<N*N; ++i) {
+            A[i] = 1.0;
+            B[i] = 1.0;
+            result_mm_tb[i] = 0.0;
+            result_mm_blocked[i] = 0.0;
+        }
+
+        if (N<=128) runs = 10000;
+        else if (N<=256) runs = 1000;
+        else if (N<=512) runs = 100;
+        else runs = 20;
+
+        stats mmTb = benchmark_mm_transposed_b(A,N,N,B,N,N,result_mm_tb, runs);
+        stats mmBlock32 = benchmark_mm_blocked(A,B,result_mm_blocked,N,32,runs);
+
+        std::cout << N << "\t"
+                 << mmTb.mean * 1e3 << "\t"
+                 << mmTb.stddev * 1e3 << "\t"
                  << mmBlock32.mean * 1e3 << "\t"
-                 << mmBlock32.stddev * 1e3 << "\t"
+                 << mmBlock32.stddev * 1e3 << "\n";
+
+        delete[] A;
+        delete[] B;
+        delete[] result_mm_tb;
+        delete[] result_mm_blocked;
+    }
+}
+void run_benchmarks_mm_tb_blocked_64() {
+    int sizes[] = {64, 128, 256, 512, 1024, 2048};
+    std::cout << "N\tMM Tb mean\tMM Tb std\tMM blocked 64 mean\tMM blocked 64 std" << std::endl;
+
+    for (int N : sizes) {
+        double* A = new double[N*N];
+        double* B = new double[N*N];
+        double* result_mm_tb = new double[N*N];
+        double* result_mm_blocked = new double[N*N];
+
+        int runs;
+        for (int i=0; i<N*N; ++i) {
+            A[i] = 1.0;
+            B[i] = 1.0;
+            result_mm_tb[i] = 0.0;
+            result_mm_blocked[i] = 0.0;
+        }
+
+        if (N<=128) runs = 10000;
+        else if (N<=256) runs = 1000;
+        else if (N<=512) runs = 100;
+        else runs = 20;
+
+        stats mmTb = benchmark_mm_transposed_b(A,N,N,B,N,N,result_mm_tb, runs);
+        stats mmBlock64 = benchmark_mm_blocked(A,B,result_mm_blocked,N,64,runs);
+
+        std::cout << N << "\t"
+                 << mmTb.mean * 1e3 << "\t"
+                 << mmTb.stddev * 1e3 << "\t"
                  << mmBlock64.mean * 1e3 << "\t"
-                 << mmBlock64.stddev * 1e3 << "\n" ;
+                 << mmBlock64.stddev * 1e3 << "\n";
 
         delete[] A;
         delete[] B;
