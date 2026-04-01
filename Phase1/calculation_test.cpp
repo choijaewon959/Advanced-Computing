@@ -153,7 +153,6 @@ void test_multiply_mm_transposed_b_basic() {
 
     std::cout << "test_multiply_mm_transposed_b_basic passed...\n";
 }
-
 int main() {
     test_multiply_mv_row_major();
     test_multiply_mv_col_major();

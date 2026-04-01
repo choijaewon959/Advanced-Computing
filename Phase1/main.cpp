@@ -56,7 +56,8 @@ int main() {
     std::cout << "Basic Time: " << duration_col_mj.count() << " milliseconds" << std::endl;
 
 
-    // 2. Matrix multiplication Naive vs Matrix multiplication Transpose
+
+    //2. Matrix multiplication Naive vs Matrix multiplication Transpose
     // generate result matrix for 2
     double *result2 = new double[MATRIX_ROW_SIZE * MATRIX_ROW_SIZE];
     auto start_mm_naive = std::chrono::high_resolution_clock::now();

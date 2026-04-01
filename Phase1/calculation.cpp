@@ -58,7 +58,6 @@ void multiply_mm_naive(const double* matrixA, int rowsA, int colsA, const double
     }
 }
 
-
 void multiply_mm_transposed_b(const double* matrixA, int rowsA, int colsA, const double* matrixB, int rowsB, int colsB, double* result) {
     if (!matrixA || !matrixB || !result) {
         throw std::invalid_argument("Null pointer passed to multiply_mm_transposed_b");

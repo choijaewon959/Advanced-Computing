@@ -4,7 +4,6 @@ project(Phase1)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3")
 
 add_executable(Phase1
         main.cpp
@@ -22,5 +21,6 @@ add_executable(calculation_test
         benchmark.h
 )
 
+target_compile_options(Phase1 PRIVATE -O3 -g)
 target_include_directories(Phase1 PRIVATE ..)
 target_include_directories(calculation_test PRIVATE ..)
