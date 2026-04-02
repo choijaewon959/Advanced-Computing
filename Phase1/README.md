@@ -126,7 +126,7 @@ and modern hardware is efficient in handling unaligned accesses.
 - See more details about the implementation logic and result in report.md
 
 ### 7. Teamwork Assessment
-- Mo implemented Matrix-Vector Multiplication and Jay implemented Matrix-Matrix Multiplication.
+- Mohammed implemented Matrix-Vector Multiplication and Jay implemented Matrix-Matrix Multiplication.
 - After explaining each other's logic and implementation, we discussed potential points of improvement amid running benchmarking tools and profiling.
 - The main challenge was to find an angle of optimization using our limited knowledge of C++. We focused on the matrix-matrix operation since it is most time consuming and likely presented more room for improvement
 - The first implementations served as a refresher of basic linear algebra operations and made us aware of the potential bottlenecks in data access. Our views then converged naturally when discussing improvements - cache locality, memory alignment and blocking were the obvious optimizations sources. We then separately studied each type and discussed tradeoffs, correctness and usability. Each question raised was discussed (ex how to fit the best number of blocks in submatrices for blocking) and a solution fitting the context was adopted
