@@ -2,7 +2,7 @@
 
 ## Overview 
 
-This project is to implement and optimize linear algebra operations(matrix-vector multiplication) considering cache locality, memory alignment, and the impact of compiler optimizations.
+The project introduces implementations and optimizations of classic linear algebra operations on C++ (matrix-vector and matrix-matrix multiplications). The study also measures the impact of cache locality, memory alignment, and compiler optimizations over the kernels.
 
 ## Team Members
 
@@ -27,10 +27,10 @@ make
 ## Part3. Discussion Questions
 
 ### 1. Key differences between References and Pointers
-- Reference is the alias of the variable whereas pointer is an address that can be handled manually.
-- Reference cannot be NULL, and does not require dereferencing, whereas pointer can be NULL and requires dereferencing.
-- Memory access control can be only done via pointers (layout, traversal, arithmetic). 
-- Pointer is preferred to traverse matrix or flexibly "striding" between elements within the containers whereas reference is preferred when passing the operands into mathematical functions or operating in single element.
+- A reference is the alias of a variable whereas pointer is an address that can be handled manually.
+- A reference cannot be NULL, and does not require dereferencing, whereas a pointer can be NULL and requires dereferencing.
+- Memory access control can only be done via pointers (layout, traversal, arithmetic). 
+- Pointers are preferred in matrix traversal or in "striding" between elements within containers. References are preferred when passing operands into functions or operations involving a single element.
 
 ### 2. Row-major vs Column-major and Cache Locality on matrix-vector and matrix-matrix
 - Matrix-Vector
@@ -67,7 +67,7 @@ make
             sum += matrix[i*cols + j];
         }
   ```
-    - Temporal Locality is improved through blocking which allowed submatrices to remain in cache and be reused many times, reducing memory traffic
+    - Temporal Locality is improved through blocking which allow submatrices to remain in cache and be reused many times, reducing memory traffic
     ```cpp
         double a=A[i][k]
         for (int j=0; j<N; j++){
@@ -78,11 +78,11 @@ make
   
 ### 4. Memory Alignment
 Memory alignment refers to data storage at memory adresses that are multiples of a specific byte (eg 32, 64 bytes). 
-Memory alignement can improve performance in theory by enabling efficient memory access and vectorization.
+Memory alignment can improve performance in theory by enabling efficient memory access and vectorization.
 However we did not observe an improvement from aligned memory; this is because computations are memory band width bound,
-and modern harware is efficient in handling unaligned accesses.
+and modern hardware is efficient in handling unaligned accesses.
 ### 5. Compiler Optimization
-- Compiler Optimization transforms my code to run faster without changing any behaviour.
+- Compiler Optimization transforms our code to run faster without changing any behavior.
 - Inlining
 
   - Removes function call overhead 
@@ -97,7 +97,7 @@ and modern harware is efficient in handling unaligned accesses.
 
 - Potential Drawback of Aggressive Optimization 
 
-  - It might hurt instruction cache (higher instruction cache pressure), chage floating-pointer behavior.
+  - It might hurt instruction cache (higher instruction cache pressure), change floating-pointer behavior.
 
 
 ### 6. Profiling
@@ -127,9 +127,9 @@ and modern harware is efficient in handling unaligned accesses.
 
 ### 7. Teamwork Assessment
 - Mo implemented Matrix-Vector Multiplication and Jay implemented Matrix-Matrix Multiplication.
-- We then explained his own logic on the implementation to each other, and then discussed about the potential points to be improved after running benchmarking tools and profiling.
-- Challenges were that explaining the logic of each other's code and understanding the potential optimization area for the code (as our initial version of the codes were already pretty optimized).
-- Benefit was that I need to be 100 percent sure about the logic of the code to explain about it and had a good opportunity to talk about the potential improvements in each other's code.
+- After explaining each other's logic and implementation, we discussed potential points of improvement amid running benchmarking tools and profiling.
+- The main challenge was to find an angle of optimization using our limited knowledge of C++. We focused on the matrix-matrix operation since it is most time consuming and likely presented more room for improvement
+- The first implementations served as a refresher of basic linear algebra operations and made us aware of the potential bottlenecks in data access. Our views then converged naturally when discussing improvements - cache locality, memory alignment and blocking were the obvious optimizations sources. We then separately studied each type and discussed tradeoffs, correctness and usability. Each question raised was discussed (ex how to fit the best number of blocks in submatrices for blocking) and a solution fitting the context was adopted
     
     
     
