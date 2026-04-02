@@ -10,7 +10,19 @@ This project is to implement and optimize linear algebra operations(matrix-vecto
 2. Jae Won (Jay) Choi 12506596
 
 ## Build Instructions
-- 
+- Requirements
+
+  - C++ compiler with C++17 support
+  - CMake 3.10 or newer
+  - Xcode / Clang on macOS, or GCC/Clang on Linux
+
+- Bash code
+```Bash
+mkdir -p build
+cd build
+cmake ..
+make
+```
 
 ## Part3. Discussion Questions
 
