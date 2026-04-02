@@ -146,7 +146,7 @@ double* allocate_aligned(std::size_t count, std::size_t alignment = 64) {
 }
 void run_benchmarks() {
     int sizes[] = {64, 128, 256, 512, 1024, 2048};
-    std::cout << "N\tRowMean(ms)\tRowStd(ms)\tColMean(ms)\tColStd(ms)\tmmNMean(ms)\tmmNStd(ms)\tmmTBMean(ms)\tmmTBStd(ms)\n" << std::endl;
+    std::cout << "N\tRowMean(ms)\tRowStd(ms)\tColMean(ms)\tColStd(ms)\n" << std::endl;
 
     for (int N : sizes) {
         double* A = new double[N*N];
@@ -167,18 +167,20 @@ void run_benchmarks() {
 
         stats row = benchmark_mv_row_major(A, N, N, vec, result_mv, runs);
         stats col = benchmark_mv_col_major(A, N, N, vec, result_mv, runs);
-        stats mmN = benchmark_mm_naive(A,N,N,B,N,N,result_mm,runs);
-        stats mmTb = benchmark_mm_transposed_b(A,N,N,B,N,N,result_mm,runs);
+        //stats mmN = benchmark_mm_naive(A,N,N,B,N,N,result_mm,runs);
+        //stats mmTb = benchmark_mm_transposed_b(A,N,N,B,N,N,result_mm,runs);
 
         std::cout << N << "\t"
                   << row.mean * 1e3 << "\t"
                   << row.stddev * 1e3 << "\t"
                   << col.mean * 1e3 << "\t"
-                  << col.stddev * 1e3 << "\t"
+                  << col.stddev * 1e3 << "\n";
+        /*
                   << mmN.mean * 1e3 << "\t"
                   << mmN.stddev * 1e3 << "\t"
                   << mmTb.mean * 1e3 << "\t"
                   << mmTb.stddev * 1e3 << "\n";
+                  */
 
         delete[] A;
         delete[] B;
@@ -189,7 +191,7 @@ void run_benchmarks() {
 }
 void run_benchmarks_aligned() {
     int sizes[] = {64, 128, 256, 512, 1024, 2048};
-    std::cout << "N\tMV default mean\tMV default std\tMV aligned mean\tMV aligned std\tMM default mean\tMM default std\tMM aligned mean\tMM aligned std\tMM optimized mean\tMM optimized std" << std::endl;
+    std::cout << "N\tMV default mean\tMV default std\tMV aligned mean\tMV aligned std\tMM default mean\tMM default std\tMM aligned mean\tMM aligned std" << std::endl;
 
     for (int N : sizes) {
         double* A = allocate_aligned(N*N);
@@ -250,6 +252,58 @@ void run_benchmarks_aligned() {
         delete[] result_mv_default;
         delete[] result_mm_default;
         delete[] vec_default;
+    }
+}
+void run_benchmarks_mm_tb_blocked() {
+    int sizes[] = {64, 128, 256, 512, 1024, 2048};
+    std::cout << "N\tMM Tb mean\tMM Tb std\tMM blocked 16 mean\tMM blocked 16 std\tMM blocked 32 mean\tMM blocked 32 std\tMM blocked 64 mean\tMM blocked 64 std" << std::endl;
+
+    for (int N : sizes) {
+        double* A = new double[N*N];
+        double* B = new double[N*N];
+        double* result_mm_tb = new double[N*N];
+        double* result_mm_blocked_16 = new double[N*N];
+        double* result_mm_blocked_32 = new double[N*N];
+        double* result_mm_blocked_64 = new double[N*N];
+
+        int runs;
+        for (int i=0; i<N*N; ++i) {
+            A[i] = 1.0;
+            B[i] = 1.0;
+            result_mm_tb[i] = 0.0;
+            result_mm_blocked_16[i] = 0.0;
+            result_mm_blocked_32[i] = 0.0;
+            result_mm_blocked_64[i] = 0.0;
+        }
+
+        if (N<=128) runs = 10000;
+        else if (N<=256) runs = 1000;
+        else if (N<=512) runs = 100;
+        else if (N<=1024) runs = 20;
+        else runs = 2;
+
+        //stats mmnaive = benchmark_mm_naive(A, N, N, B, N, N, result_mm_naive, runs);
+        stats mmTb = benchmark_mm_transposed_b(A,N,N,B,N,N,result_mm_tb, runs);
+        stats mmBlock16 = benchmark_mm_blocked(A,B,result_mm_blocked_16,N,16,runs);
+        stats mmBlock32 = benchmark_mm_blocked(A,B,result_mm_blocked_32,N,32,runs);
+        stats mmBlock64 = benchmark_mm_blocked(A,B,result_mm_blocked_64,N,64,runs);
+
+        std::cout << N << "\t"
+                << mmTb.mean * 1e3 << "\t"
+                << mmTb.stddev * 1e3 << "\t"
+                << mmBlock16.mean * 1e3 << "\t"
+                << mmBlock16.stddev * 1e3 << "\t"
+                << mmBlock32.mean * 1e3 << "\t"
+                << mmBlock32.stddev * 1e3 << "\t"
+                << mmBlock64.mean * 1e3 << "\t"
+                << mmBlock64.stddev * 1e3 << "\n";
+
+        delete[] A;
+        delete[] B;
+        delete[] result_mm_tb;
+        delete[] result_mm_blocked_16;
+        delete[] result_mm_blocked_32;
+        delete[] result_mm_blocked_64;
     }
 }
 void run_benchmarks_mm_tb_blocked_16() {
