@@ -10,7 +10,7 @@ The project studies the impact of:
 
 - cache locality (row-major vs column-major access)
 - memory alignment
-- algorithmic optimzations (transpose B and blocking)
+- algorithmic optimizations (transpose B and blocking)
 
 ## 2. Methodology
 ### 2.1 Implementations
@@ -103,7 +103,6 @@ A block of size **32** provided the best results:
 - consistently outperformed baseline methods
 
 ## 5. Conclusion
-Key findings:
 - Loop order and access patterns are critical for performance
 - Memory alignment has limited impact in this context
 - Blocking provides the largest gains in performance

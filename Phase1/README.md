@@ -4,7 +4,7 @@
 
 This project is to implement and optimize linear algebra operations(matrix-vector multiplication) considering cache locality, memory alignment, and the impact of compiler optimizations.
 
-## Team Member
+## Team Members
 
 1. Mohammed Rhazi 12506615
 2. Jae Won (Jay) Choi 12506596
@@ -26,8 +26,8 @@ make
 
 ## Part3. Discussion Questions
 
-### 1. Key differences between Reference and Pointers
-- Reference is the alias of the variable whereas pointer is address that can be handled manually.
+### 1. Key differences between References and Pointers
+- Reference is the alias of the variable whereas pointer is an address that can be handled manually.
 - Reference cannot be NULL, and does not require dereferencing, whereas pointer can be NULL and requires dereferencing.
 - Memory access control can be only done via pointers (layout, traversal, arithmetic). 
 - Pointer is preferred to traverse matrix or flexibly "striding" between elements within the containers whereas reference is preferred when passing the operands into mathematical functions or operating in single element.
@@ -38,8 +38,8 @@ make
   - However, in this assignment's setting, we assume column-major matrix is accessing elements that are also contiguous in heap memory, and therefore there is no expected difference in overall running time.
 - Matrix-Matrix
   
-  - For naive approach, matrix multiplication loops from left to right on the row of the left matrix and top to bottom on the column of the right matrix. Here, we need to "jump" from one index to another when we are looping from top to bottom on the second matrix.
-  - To deal with this, we transpose the matrix before passing it into the function to keep the cache locality by making jumpy stride of the access of the element in a more contiguous manner which improves the runtime.
+  - In the naive approach, matrix multiplication loops from left to right on the row of the left matrix and top to bottom on the column of the right matrix. Here, we need to "jump" from one index to another when we are looping from top to bottom on the second matrix.
+  - To deal with this, we transpose the matrix before passing it into the function to maintain the data access contiguous which improves the runtime.
   
 ### 3. CPU Caches(L1, L2, L3) and temporal/spatial locality
 - | Cache   | Size       | Speed       | Scope               |
@@ -55,21 +55,32 @@ make
   
     If the data is accessed once, the data is likely to be accessed again soon.
 
-    - **Spatial locality** 
+  - **Spatial locality** 
   
-      If the data is accessed in one memory location, nearby locations will be used soon.
-    - **How we exploited locality of memory**
-   
-      - Temporal Locality
-      ```cpp
-          result[i] += matrix[...] * vector[j];
-      ```
-      - Spatial Locality
-      ```cpp
-          sum += matrix[i*cols + j] * vector[j];
-      ```
-### 4. Memory Alignment
+    If the data is accessed in one memory location, nearby locations will be used soon.
+  
+  **How we exploited locality of memory**
 
+    - Spatial Locality is improved by structuring loops to access contiguous elements of data; this is exploited by transposing matrix B to allow cache friendly access in matmul 
+    ```cpp
+        for (int j=0; j<cols; j++){
+            sum += matrix[i*cols + j];
+        }
+  ```
+    - Temporal Locality is improved through blocking which allowed submatrices to remain in cache and be reused many times, reducing memory traffic
+    ```cpp
+        double a=A[i][k]
+        for (int j=0; j<N; j++){
+           C[i][j] += a * B[k][j]
+        }
+  ```
+  
+  
+### 4. Memory Alignment
+Memory alignment refers to data storage at memory adresses that are multiples of a specific byte (eg 32, 64 bytes). 
+Memory alignement can improve performance in theory by enabling efficient memory access and vectorization.
+However we did not observe an improvement from aligned memory; this is because computations are memory band width bound,
+and modern harware is efficient in handling unaligned accesses.
 ### 5. Compiler Optimization
 - Compiler Optimization transforms my code to run faster without changing any behaviour.
 - Inlining
