@@ -92,6 +92,8 @@ Performance depends on access patterns not just storage format.
 - Performance is primarily memory bandwidth bound
 
 ### 4.3 Blocking optimization
+Blocking divides matrices into smaller sub-blocks so that each block fits into cache. Instead of operating on the entire matrix, we perform computations on these blocks, which allows us to reuse data multiple times before it is evicted from cache.
+
 Blocking significantly improved performance by:
 - increasing cache reuse
 - reducing memory traffic

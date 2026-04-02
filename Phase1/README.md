@@ -57,6 +57,7 @@ This project is to implement and optimize linear algebra operations(matrix-vecto
           sum += matrix[i*cols + j] * vector[j];
       ```
 ### 4. Memory Alignment
+
 ### 5. Compiler Optimization
 - Compiler Optimization transforms my code to run faster without changing any behaviour.
 - Inlining
@@ -77,7 +78,30 @@ This project is to implement and optimize linear algebra operations(matrix-vecto
 
 
 ### 6. Profiling
-tba
+![Profiling Result](img/Profiling result.png)
+
+- We have focused on optimizing Matrix * Matrix multiplication. We have provided the runtime of naive algorithm vs transposed algorithm vs block cached algorithm.
+- We have tested for 3 different block sizes - 16, 32, and 64. 
+- Due to updated cache locality in transposed version and blocked version, we could find significant improvement in the runtime of the algorithm from naive to optimized (110mins → 3mins 50s).
+- As expected, the main bottleneck is the big stride between the index of memory for naive approach, whereas transposed version and block cached version leverages on cache locality and cache reuse which enables 30x faster result.
+```cpp
+  // bottleneck - naive approach
+  result[i * colsB + j] += matrixA[i * colsA + k] * matrixB[k * colsB + j];
+```
+```cpp
+  // block-cached - improved with cache reuse by storing result of submatrix
+  int imax = std::min(ii+BS, N);
+  int kmax = std::min(kk+BS, N);
+  int jmax = std::min(jj+BS, N);
+  
+  for (int i=ii; i<imax; ++i) {
+      for (int k=kk; k<kmax; ++k) {
+          double aik = matrixA[i*N+k];
+          for (int j=jj; j<jmax; ++j) {
+              matrixC[i*N+j] += aik * matrixB[j*N+k];
+```
+- See more details about the implementation logic and result in report.md
+
 
 ### 7. Teamwork Assessment
 - Mo implemented Matrix-Vector Multiplication and Jay implemented Matrix-Matrix Multiplication.
