@@ -78,7 +78,7 @@ This project is to implement and optimize linear algebra operations(matrix-vecto
 
 
 ### 6. Profiling
-![Profiling Result](img/Profiling result.png)
+![Profiling Result](img/Profiling%20result.png)
 
 - We have focused on optimizing Matrix * Matrix multiplication. We have provided the runtime of naive algorithm vs transposed algorithm vs block cached algorithm.
 - We have tested for 3 different block sizes - 16, 32, and 64. 
@@ -101,7 +101,6 @@ This project is to implement and optimize linear algebra operations(matrix-vecto
               matrixC[i*N+j] += aik * matrixB[j*N+k];
 ```
 - See more details about the implementation logic and result in report.md
-
 
 ### 7. Teamwork Assessment
 - Mo implemented Matrix-Vector Multiplication and Jay implemented Matrix-Matrix Multiplication.
