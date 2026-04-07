@@ -101,6 +101,7 @@ void handleClient(ClientInfo* client) {
 
             priceAlreadyHit.insert(receivedPriceId);
             auto latency = duration_cast<milliseconds>(now - priceTimestamps[receivedPriceId]).count();
+
             cout << "🎯 " << client->name << " hit price ID " << receivedPriceId
                  << " after " << latency << " ms" << endl;
         }

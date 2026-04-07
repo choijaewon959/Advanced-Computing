@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <deque>
 
 using namespace std;
 
@@ -15,6 +16,7 @@ using namespace std;
 
 void receiveAndRespond(int socketFd, const string& name) {
     char buffer[BUFFER_SIZE];
+    std::deque<float> priceHistory;
 
     // Send client name
     send(socketFd, name.c_str(), name.size(), 0);
@@ -37,16 +39,35 @@ void receiveAndRespond(int socketFd, const string& name) {
         int priceId = stoi(data.substr(0, commaPos));
         float price = stof(data.substr(commaPos + 1));
 
-        cout << "📥 Received price ID: " << priceId << ", Value: " << price << endl;
+        if (priceHistory.size() >= 3) {
+            priceHistory.pop_front();
+        }
+        priceHistory.push_back(price);
 
-        // Simulate reaction delay
-        this_thread::sleep_for(chrono::milliseconds(100 + rand() % 300));
+        if ((int)priceHistory.size() == 3) {
+            float a = priceHistory[0];
+            float b = priceHistory[1];
+            float c = priceHistory[2];
 
-        // Send order (price ID)
-        string order = to_string(priceId);
-        send(socketFd, order.c_str(), order.length(), 0);
+            bool up = (a<b) && (b<c);
+            bool down = (a>b) && (b>c);
 
-        cout << "📤 Sent order for price ID: " << priceId << endl;
+            cout << "📥 Received price ID: " << priceId << ", Value: " << price << endl;
+
+            if (up || down) {
+
+                // Simulate reaction delay
+                this_thread::sleep_for(chrono::milliseconds(10 + rand() % 50));
+
+                // Send order (price ID)
+                string order = to_string(priceId);
+                send(socketFd, order.c_str(), order.length(), 0);
+                if (up) cout << "Momentum up! Sending order for price ID " << priceId << endl;
+                else cout << "Momentum down! Sending order for price ID " << priceId << endl;
+            }
+            else cout << "No momentum. Ignoring price ID " << priceId << endl;
+        }
+        //cout << "📤 Sent order for price ID: " << priceId << endl;
     }
 
     close(socketFd);
