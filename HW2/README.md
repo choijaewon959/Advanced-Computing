@@ -22,6 +22,12 @@ Write-up
    ```cpp
        double avg = getAvg(tick.instrument_id);
    ```
+   ```cpp
+       auto& hist = price_history[id];
+       double sum = 0;
+       for (double p : hist) sum += p;
+       return hist.empty() ? 0 : sum / hist.size();
+   ```
    This has runtime complexity of O(W). where W is the window size.
 
    Instead, we can keep rolling sum for each instrument and calculates average with O(1).
