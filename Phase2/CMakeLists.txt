@@ -6,4 +6,5 @@ set(CMAKE_CXX_STANDARD 20)
 add_executable(Phase2 main.cpp
         hft_client.cpp
         hft_server.cpp
+        main.cpp
 )
