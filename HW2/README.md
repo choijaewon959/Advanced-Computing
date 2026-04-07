@@ -8,7 +8,7 @@ This submission includes:
 
 Sample Output
 -------------
-![Performance Output](img/performance_report.png)
+![Performance Output](img/performance_report_order_contribution.png)
 
 Write-up
 --------
