@@ -23,6 +23,7 @@ public:
         : market_data(feed) {}
     void process();
     void reportStats();
+    std::unordered_map<int, int> signal_counter;
 
 private:
     const std::vector<MarketData>& market_data;

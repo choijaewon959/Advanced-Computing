@@ -13,9 +13,18 @@ void TradeEngine::process() {
         // Apply signals
         bool buy = false, sell = false;
 
-        if (signal1(tick)) buy = true;
-        if (signal2(tick)) { if (tick.price < getAvg(tick.instrument_id)) buy = true; else sell = true; }
-        if (signal3(tick)) buy = true;
+        if (signal1(tick)) {
+            buy = true;
+            signal_counter[1]++;
+        }
+        if (signal2(tick)) {
+            if (tick.price < getAvg(tick.instrument_id)) buy = true; else sell = true;
+            signal_counter[2]++;
+        }
+        if (signal3(tick)) {
+            buy = true;
+            signal_counter[3]++;
+        }
 
         if (buy || sell) {
             auto now = std::chrono::high_resolution_clock::now();

@@ -22,5 +22,13 @@ int main() {
     engine.reportStats();
     std::cout << "Total Runtime (ms): " << runtime << std::endl;
 
+    // signal contribution
+    std::cout << "Signal Contribution to orders: " << std::endl;
+    for (const auto& [key, value] : engine.signal_counter) {
+        std::cout << "Signal " << key << " : " << value << "\n";
+    }
+
+
+
     return 0;
 }
