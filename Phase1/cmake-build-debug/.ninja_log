@@ -1,0 +1,23 @@
+# ninja log v6
+3	486	1774994158168768700	CMakeFiles/calculation_test.dir/benchmark.cpp.o	2803902d882e35be
+2	105	1775078731419173283	build.ninja	553c974209f7169c
+4	113	1774994559542907463	CMakeFiles/Phase1.dir/calculation.cpp.o	d6d3c1bf941643df
+5	414	1774994185878245223	CMakeFiles/calculation_test.dir/calculation_test.cpp.o	5d3513174d8f2544
+7	658	1775015299045116553	CMakeFiles/Phase1.dir/main.cpp.o	2321ff2628a542cb
+1	75	1774920731525186954	CMakeFiles/Advanced-Computing.dir/calculation.cpp.o	1263557d480afb72
+658	819	1775015299695868604	Phase1	2eaa6060e20b4e6c
+4	100	1774994326177823884	CMakeFiles/calculation_test.dir/calculation.cpp.o	e34500869af4492e
+76	125	1774920731599659436	Advanced-Computing	79bfe37f21a991e0
+100	149	1774994326273859380	calculation_test	1bc8a0d898bb6b9e
+2	105	1775078731417952456	/Users/jaewonchoi/workspace/uchicago/FINM327Advanced Computing/Advanced-Computing/Phase1/cmake-build-debug/cmake_install.cmake	553c974209f7169c
+1	50	1774920719581216468	CMakeFiles/Advanced-Computing.dir/main.cpp.o	abfade1077e66942
+4	482	1774994559543070421	CMakeFiles/Phase1.dir/benchmark.cpp.o	2b241db08de56fcc
+8	408	1775078812907151030	CMakeFiles/Phase1.dir/calculation.cpp.o	d6d3c1bf941643df
+7	454	1775078812906737782	CMakeFiles/Phase1.dir/main.cpp.o	2321ff2628a542cb
+8	555	1775078812907334030	CMakeFiles/Phase1.dir/benchmark.cpp.o	2b241db08de56fcc
+555	686	1775078813454728127	Phase1	2eaa6060e20b4e6c
+8	490	1775080510142205730	CMakeFiles/Phase1.dir/main.cpp.o	2321ff2628a542cb
+8	621	1775080510142593811	CMakeFiles/Phase1.dir/benchmark.cpp.o	2b241db08de56fcc
+621	741	1775080510755276472	Phase1	2eaa6060e20b4e6c
+17	700	1775082488978691901	CMakeFiles/Phase1.dir/benchmark.cpp.o	2b241db08de56fcc
+700	812	1775082489661708259	Phase1	2eaa6060e20b4e6c
