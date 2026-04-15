@@ -4,8 +4,6 @@
 
 #include "market_snapshot.h"
 
-MarketSnapshot::MarketSnapshot() {}
-
 void MarketSnapshot::update_bid(double price, int qty) {
     auto iter = bids.find(price);
     if (iter != bids.end()) {

@@ -14,11 +14,11 @@ struct PriceLevel {
 };
 
 class MarketSnapshot {
+public:
+    MarketSnapshot() {};
     std::map<double, std::unique_ptr<PriceLevel>> bids;
     std::map<double, std::unique_ptr<PriceLevel>> asks;
 
-public:
-    MarketSnapshot();
     void update_bid(double price, int qty);
     void update_ask(double price, int qty);
     const PriceLevel* get_best_bid() const;
