@@ -31,6 +31,4 @@ public:
     void handle_fill(int id, int filled_qty);
     void print_active_orders() const;
 };
-
-
 #endif //PHASE3_ORDER_MANAGER_H

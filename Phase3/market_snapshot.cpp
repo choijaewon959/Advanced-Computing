@@ -36,3 +36,21 @@ const PriceLevel* MarketSnapshot::get_best_ask() const {
     auto it = asks.begin();
     return it->second.get();
 }
+void MarketSnapshot::cancel_bid(double price, int qty) {
+    auto it_bid = bids.find(price);
+    if (it_bid != bids.end()) {
+        it_bid->second->quantity -= qty;
+        if (it_bid->second->quantity <= 0) {
+            bids.erase(it_bid);
+        }
+    }
+}
+void MarketSnapshot::cancel_ask(double price, int qty) {
+    auto it_ask = asks.find(price);
+    if (it_ask != asks.end()) {
+        it_ask->second->quantity -= qty;
+        if (it_ask->second->quantity <= 0) {
+            asks.erase(it_ask);
+        }
+    }
+}

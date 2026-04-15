@@ -19,21 +19,29 @@ void OrderManager::cancel(int id) {
 
     //update book
     if (cur_order->side == Side::Bid) {
-        auto bid_it = market.bids.find(cur_price);
-        if (bid_it != market.bids.end()) {
-            bid_it->second->quantity -= cur_qty;
-            if (bid_it->second->quantity <= 0) {
-                market.bids.erase(bid_it);
-            }
-        }
+        market.cancel_bid(cur_price, cur_qty);
     }
     else {
-        auto ask_it = market.asks.find(cur_price);
-        if (ask_it != market.asks.end()) {
-            ask_it->second->quantity -= cur_qty;
-            if (ask_it->second->quantity <= 0) {
-                market.asks.erase(ask_it);
-            }
-        }
+        market.cancel_bid(cur_price, cur_qty);
     }
+    //delete in orderr;
+    orders.erase(it);
+}
+void OrderManager::handle_fill(int id, int filled_qty) {
+    auto it = orders.find(id);
+    if (it == orders.end()) return;
+
+    MyOrder* cur_order = it->second.get();
+    cur_order->quantity -= filled_qty;
+    cur_order->filled += filled_qty;
+
+    if (cur_order->quantity == 0) {
+        cur_order->status = OrderStatus::Filled;
+    }
+    else {
+        cur_order->status = OrderStatus::PartiallyFilled;
+    }
+}
+void OrderManager::print_active_orders() const {
+
 }
