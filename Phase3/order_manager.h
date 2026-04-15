@@ -16,6 +16,9 @@ struct MyOrder {
     int quantity;
     int filled = 0;
     OrderStatus status = OrderStatus::New;
+
+    MyOrder(int id_, Side side_, double price_, int quantity_, int filled_, OrderStatus status_) :
+        id(id_), side(side_), price(price_), quantity(quantity_), filled(filled_), status(status_) {};
 };
 
 class OrderManager {

@@ -27,9 +27,4 @@ public:
     void cancel_ask(double price, int qty);
 };
 
-
-
-
-
-
 #endif //PHASE3_MARKET_SNAPSHOT_H
