@@ -26,6 +26,7 @@ void OrderManager::cancel(int id) {
     }
     //delete in orderr;
     orders.erase(it);
+    cur_order->status = OrderStatus::Cancelled;
 }
 void OrderManager::handle_fill(int id, int filled_qty) {
     auto it = orders.find(id);
@@ -43,5 +44,13 @@ void OrderManager::handle_fill(int id, int filled_qty) {
     }
 }
 void OrderManager::print_active_orders() const {
-
+    if (orders.empty()) {
+        std::cout << "NO ACTIVE ORDERS" << std::endl;
+        return;
+    }
+    std::cout << " ID " << "\t" << " PRICE " << "\t" << " REMAINING " << "\t" << " FILLED " << std::endl;
+    for (const auto& [id, order_ptr] : orders){
+        const auto& order = *order_ptr;
+        std::cout << order.id << "\t" << order.price << "\t" << order.quantity << "\t" << order.filled << std::endl;
+    }
 }

@@ -4,6 +4,7 @@
 
 #ifndef PHASE3_MARKET_SNAPSHOT_H
 #define PHASE3_MARKET_SNAPSHOT_H
+#include <iostream>
 #include <map>
 
 struct PriceLevel {
