@@ -79,10 +79,9 @@ std::vector<FeedEvent> load_feed(const std::string& filename) {
             if (iss >> id >> qty) {
                 feed.push_back({FeedType::EXECUTION, 0.0, qty, id});
             };
-
-            cur_feed.filled_order_id = id;
-            cur_feed.qty = qty;
-            feed.push_back(cur_feed);
+        }
+        else {
+            std::cerr << "Unknown event happened: " << line << "\n";
         }
     }
     return feed;
