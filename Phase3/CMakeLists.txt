@@ -7,4 +7,5 @@ add_executable(Phase3 main.cpp
         market_snapshot.cpp
         market_snapshot.h
         order_manager.cpp
-        order_manager.h)
+        order_manager.h
+        feed_parser.h)
