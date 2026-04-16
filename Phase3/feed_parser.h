@@ -28,10 +28,10 @@ struct FeedEvent {
     void print() const {
         switch (type) {
             case FeedType::BID:
-                std::cout << "[BID] " << price << " x " << quantity << "\n";
+                std::cout << "[NEW BID] " << price << " x " << quantity << "\n";
                 break;
             case FeedType::ASK:
-                std::cout << "[ASK] " << price << " x " << quantity << "\n";
+                std::cout << "[NEW ASK] " << price << " x " << quantity << "\n";
                 break;
             case FeedType::EXECUTION:
                 std::cout << "[EXECUTION] Order " << order_id << " filled: " << quantity << "\n";

@@ -38,6 +38,8 @@ void OrderManager::handle_fill(int id, int filled_qty) {
 
     if (cur_order->quantity == 0) {
         cur_order->status = OrderStatus::Filled;
+        std::cout << "[ORDER] order " << id << "completed and removed\n";
+        orders.erase(it);
     }
     else {
         cur_order->status = OrderStatus::PartiallyFilled;
