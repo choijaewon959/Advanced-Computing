@@ -3,13 +3,12 @@
 #include "TradeHandle.h"
 
 int main() {
-    //Task1
+    //Task 1
     Trade* t1 = new Trade("AAPL", 175.0);
 
     std::cout << "Single Trade:" << std::endl;
     std::cout << t1->symbol << " @ " << t1->price << std::endl;
 
-    //Task2
     Trade* trades = new Trade[5]{
         {"AAPL", 175.5},
         {"MSFT", 320.1},
@@ -26,6 +25,7 @@ int main() {
         delete t1;
         delete[] trades;
 
+    //Task 3
     TradeHandle th(new Trade("AAPL", 175.50));
     std::cout << "Inside scope: " << th->symbol << " @ " << th->price << "\n";
 
