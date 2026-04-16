@@ -7,7 +7,6 @@
 
 #include <iostream>
 #include "order_manager.h"
-#include "feed_parser.h"
 #include <fstream>
 #include <string>
 #include <sstream>
@@ -35,7 +34,7 @@ struct FeedEvent {
                 std::cout << "[ASK] " << price << " x " << quantity << "\n";
                 break;
             case FeedType::EXECUTION:
-                std::cout << "[EXECUTION] Order " << order_id << "filled: " << quantity << "\n";
+                std::cout << "[EXECUTION] Order " << order_id << " filled: " << quantity << "\n";
                 break;
             default:
                 std::cout << "[UNKNOWN]\n";

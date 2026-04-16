@@ -25,13 +25,12 @@ int main() {
         else if (update.type == FeedType::ASK) {
             snapshot.update_ask(update.price, update.quantity);
         }
-        if (should_trade(snapshot)) {
-            int id = om.place_order(Side::Bid, snapshot.get_best_bid()->price, 10); // 10?
-
-            std::cout << "ID "<< id << ": Placed BUY order at " << snapshot.get_best_bid()->price << """\n";
-        }
-        if (update.type == FeedType::EXECUTION) {
+        else if (update.type == FeedType::EXECUTION) {
             om.handle_fill(update.order_id, update.quantity);
+        }
+        if ((update.type == FeedType::BID || update.type == FeedType::ASK) && should_trade(snapshot)) {
+            int id = om.place_order(Side::Bid, snapshot.get_best_bid()->price, 10); // 10?
+            std::cout << "ID "<< id << ": Placed BUY order at " << snapshot.get_best_bid()->price << "\n";
         }
     }
 }
