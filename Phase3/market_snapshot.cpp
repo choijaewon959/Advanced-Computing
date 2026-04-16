@@ -17,7 +17,6 @@ void MarketSnapshot::update_bid(double price, int qty) {
     }
     else {
         bids.emplace(price, std::make_unique<PriceLevel>(price, qty));
-        std::cout << price << std::endl;
     }
 }
 void MarketSnapshot::update_ask(double price, int qty) {
