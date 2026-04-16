@@ -15,15 +15,15 @@ int main() {
         {"GOOG", 2800.0},
         {"AMZN", 3400.2},
         {"TSLA", 900.8}
-        };
+    };
 
-        std::cout << "\nTrade Array:" << std::endl;
-        for (int i = 0; i < 5; ++i) {
-            std::cout << trades[i].symbol << " @ " << trades[i].price << std::endl;
-        }
+    std::cout << "\nTrade Array:" << std::endl;
+    for (int i = 0; i < 5; ++i) {
+        std::cout << trades[i].symbol << " @ " << trades[i].price << std::endl;
+    }
 
-        delete t1;
-        delete[] trades;
+    delete t1;
+    delete[] trades;
 
     //Task 3
     TradeHandle th(new Trade("AAPL", 175.50));
