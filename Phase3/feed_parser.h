@@ -86,13 +86,4 @@ std::vector<FeedEvent> load_feed(const std::string& filename) {
     }
     return feed;
 }
-bool should_trade(MarketSnapshot& snapshot) {
-    const PriceLevel* best_bid = snapshot.get_best_bid();
-    const PriceLevel* best_ask = snapshot.get_best_ask();
-
-    if (best_bid==nullptr || best_ask == nullptr ) {
-        return false;
-    }
-    return best_bid->price >= best_ask->price;
-}
 #endif //PHASE3_FEED_PARSER_H
