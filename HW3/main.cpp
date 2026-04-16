@@ -1,13 +1,6 @@
 #include <iostream>
 #include <string>
-
-struct Trade {
-    std::string symbol;
-    double price;
-
-    Trade(const std::string& sym, double p)
-        : symbol(sym), price(p) {}
-};
+#include "TradeHandle.h"
 
 int main() {
     //Task1
