@@ -26,5 +26,8 @@ int main() {
         delete t1;
         delete[] trades;
 
-        return 0;
-    }
+    TradeHandle th(new Trade("AAPL", 175.50));
+    std::cout << "Inside scope: " << th->symbol << " @ " << th->price << "\n";
+
+    return 0;
+}

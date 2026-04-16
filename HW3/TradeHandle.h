@@ -20,6 +20,7 @@ public:
 
     // handle auto mem deletion
     ~TradeHandle() {
+        std::cout << "Deleting TradeHandle..." << std::endl;
         delete ptr;
     };
 
