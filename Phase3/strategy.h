@@ -15,7 +15,7 @@ enum class Signal {
 
 class Strategy {
 public:
-    Signal get_signal(const MarketSnapshot& snapshot) {
+    Signal get_signal(const MarketSnapshot& snapshot) const{
         const PriceLevel* best_bid = snapshot.get_best_bid();
         const PriceLevel* best_ask = snapshot.get_best_ask();
 
@@ -26,7 +26,7 @@ public:
         if (best_ask->price < 100.0) {
             return Signal::Buy;
         }
-        if (best_bid->price > 100.0) {
+        else if (best_bid->price > 100.0) {
             return Signal::Sell;
         }
 

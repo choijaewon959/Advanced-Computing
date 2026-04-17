@@ -17,11 +17,11 @@ int main() {
 
         if (update.type == FeedType::BID) {
             snapshot.update_bid(update.price, update.quantity);
-            log.info("[MARKET] BEST BID: " + std::to_string(snapshot.get_best_bid()->price) + "*" + std::to_string(snapshot.get_best_bid()->quantity));
+            log.info("[MARKET] Best BID: " + std::to_string(snapshot.get_best_bid()->price) + "*" + std::to_string(snapshot.get_best_bid()->quantity));
         }
         else if (update.type == FeedType::ASK) {
             snapshot.update_ask(update.price, update.quantity);
-            log.info("[MARKET] BEST ASK: " + std::to_string(snapshot.get_best_ask()->price) + "*" +  std::to_string(snapshot.get_best_ask()->quantity));
+            log.info("[MARKET] Best ASK: " + std::to_string(snapshot.get_best_ask()->price) + "*" +  std::to_string(snapshot.get_best_ask()->quantity));
         }
         else if (update.type == FeedType::EXECUTION) {
             om.handle_fill(update.order_id, update.quantity);
@@ -36,7 +36,7 @@ int main() {
             }
             else if (sig == Signal::Sell) {
                 int id = om.place_order(Side::Ask, snapshot.get_best_ask()->price, 10);
-                log.info("[Strategy] Placed SELL order at " + std::to_string(snapshot.get_best_bid()->price) + " (ID [" + std::to_string(id) + "])");
+                log.info("[Strategy] Placed SELL order at " + std::to_string(snapshot.get_best_ask()->price) + " (ID [" + std::to_string(id) + "])");
             }
 
         }

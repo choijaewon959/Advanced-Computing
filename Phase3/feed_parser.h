@@ -28,13 +28,13 @@ struct FeedEvent {
     void print(Logger& log) const {
         switch (type) {
             case FeedType::BID:
-                log.info("[NEW BID] " + std::to_string(price) + " x " + std::to_string(quantity));
+                log.info("[MARKET] Added BID level " + std::to_string(price) + " x " + std::to_string(quantity));
                 break;
             case FeedType::ASK:
-                log.info("[NEW ASK] " + std::to_string(price) + " x " + std::to_string(quantity));
+                log.info("[MARKET] Added ASK level " + std::to_string(price) + " x " + std::to_string(quantity));
                 break;
             case FeedType::EXECUTION:
-                log.info("[EXECUTION] Order " + std::to_string(order_id) + " filled: " + std::to_string(quantity));
+                log.info("[MARKET] Added EXECUTION order " + std::to_string(order_id) + " x " + std::to_string(quantity));
                 break;
             default:
                 log.error("[UNKNOWN]");
