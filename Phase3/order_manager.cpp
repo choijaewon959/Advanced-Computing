@@ -17,14 +17,12 @@ void OrderManager::cancel(int id) {
     double cur_price = cur_order->price;
     int cur_qty = cur_order->quantity;
 
-    //update book
     if (cur_order->side == Side::Bid) {
         market.cancel_bid(cur_price, cur_qty);
     }
     else {
         market.cancel_bid(cur_price, cur_qty);
     }
-    //delete in orderr;
     orders.erase(it);
     cur_order->status = OrderStatus::Cancelled;
 }
