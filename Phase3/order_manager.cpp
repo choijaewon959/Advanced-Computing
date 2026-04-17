@@ -38,7 +38,7 @@ void OrderManager::handle_fill(int id, int filled_qty) {
 
     if (cur_order->quantity == 0) {
         cur_order->status = OrderStatus::Filled;
-        std::cout << "[ORDER] order " << id << "completed and removed\n";
+        log.info("[ORDER] order " + std::to_string(id) + "completed and removed");
         orders.erase(it);
     }
     else {

@@ -6,11 +6,11 @@
 #define PHASE3_FEED_PARSER_H
 
 #include <iostream>
-#include "order_manager.h"
 #include <fstream>
 #include <string>
 #include <sstream>
 #include <vector>
+#include "logger.h"
 
 enum class FeedType {
     BID,
@@ -25,22 +25,24 @@ struct FeedEvent {
     int order_id = -1;
 
     //debug print
-    void print() const {
+    void print(Logger& log) const {
         switch (type) {
             case FeedType::BID:
-                std::cout << "[NEW BID] " << price << " x " << quantity << "\n";
+                log.info("[NEW BID] " + std::to_string(price) + " x " + std::to_string(quantity));
                 break;
             case FeedType::ASK:
-                std::cout << "[NEW ASK] " << price << " x " << quantity << "\n";
+                log.info("[NEW ASK] " + std::to_string(price) + " x " + std::to_string(quantity));
                 break;
             case FeedType::EXECUTION:
-                std::cout << "[EXECUTION] Order " << order_id << " filled: " << quantity << "\n";
+                log.info("[EXECUTION] Order " + std::to_string(order_id) + " filled: " + std::to_string(quantity));
                 break;
             default:
-                std::cout << "[UNKNOWN]\n";
+                log.error("[UNKNOWN]");
         }
     }
 };
+
+
 std::vector<FeedEvent> load_feed(const std::string& filename) {
     std::ifstream file(filename);
     std::string line;
