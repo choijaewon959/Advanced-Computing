@@ -9,6 +9,5 @@ add_executable(Phase3 main.cpp
         order_manager.cpp
         order_manager.h
         feed_parser.h
-        strategy.cpp
         strategy.h
         logger.h)
