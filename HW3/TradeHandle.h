@@ -11,7 +11,12 @@ struct Trade {
     Trade(const std::string& sym, double p)
         : symbol(sym), price(p) {}
 };
+struct ControlBlock {
+    Trade* ptr;
+    int ref_count;
 
+    ControlBlock(Trade* p) : ptr(p), ref_count(1) {};
+};
 class TradeHandle {
     Trade* ptr;
 

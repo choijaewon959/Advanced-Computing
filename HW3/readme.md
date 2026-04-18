@@ -45,3 +45,27 @@ Result:
 - memory leak 
 - the Trade object stays allocated on the heap
 
+## Part 5
+1. The biggest risks of memory management:
+- memory leaks: forgetting to delete allocated memory (memory grows)
+- dangling pointers: accessing memory after it has been freed, leads to undefined behaviour
+- double delete: deleting the same pointer twice, leads to runtime errors 
+
+2. The problems that could occur in HFT systems due to memory leaks or fragmentation:
+- latency spikes: fragmentation leads to poor cache locality and slow allocations 
+- system crashes during trading: memory leaks lead to memory exhaustion (processes killed or crashes)
+- missed trading opportunities / incorrect decisions: delays can lead to missed fills or incorrect pricing
+
+3. RAII reduces the risk of bugs:
+- RAII ties resource lifetime to object lifetime: resources are acquired in constructors and destroyed in destructors.
+So no need to call delete manually, this also prevents leaks and double deletes.
+
+4. Tradeoffs between manual and automatic memory management in performance critical code:
+- Manual:
+- Pros: More control over allocations, can optimize cache locality & alignment, lower overhead
+- Cons: Error prone, hard to maintain, bugs
+
+
+- Automatic:
+- Pros: Safer, easier to maintain, clear ownership (unique_ptr)
+- Cons: Slight overhead, less control over memory layout, hidden performance costs
