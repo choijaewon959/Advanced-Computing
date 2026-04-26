@@ -5,4 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_executable(HW4 main.cpp
         metaprogramming.h
-        OrderBookBuffer.h)
+        OrderBookBuffer.h
+        constexpr_math.h
+        StaticVector.h
+        generic_algorithms.h)

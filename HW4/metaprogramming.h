@@ -88,4 +88,6 @@ struct Eight {
 static_assert(IsOdd<Seven>::value);
 static_assert(!IsOdd<Eight>::value);
 
+
+
 #endif //HW4_METAPROGRAMMING_H
