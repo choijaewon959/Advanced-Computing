@@ -98,6 +98,17 @@ int main() {
         std::cout << *it3 << "\n";
     }
 
-    return 0;
+    //replace T with a struct in staticVector
+    std::cout << "replace T with a struct in staticVector: \n";
+    StaticVector<Order, 5> orders2;
 
+    orders2.push_back(Order({1, 101, 3, "B"}));
+    orders2.push_back(Order({2, 90, 40, "S"}));
+
+    for (const auto& x : orders2) {
+        std::cout << x << "\n";
+    }
+
+
+    return 0;
 }
