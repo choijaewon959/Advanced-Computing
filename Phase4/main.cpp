@@ -1,16 +1,36 @@
 #include <iostream>
+#include <vector>
+#include <numeric>
+#include <algorithm>
+#include "Order.h"
+#include "Timer.h"
 
-// TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+using OrderType = Order<double, int>;
+
 int main() {
-    // TIP Press <shortcut actionId="RenameElement"/> when your caret is at the <b>lang</b> variable name to see how CLion can help you rename it.
-    auto lang = "C++";
-    std::cout << "Hello and welcome to " << lang << "!\n";
+    std::vector<long long> latencies;
+    const int num_ticks = 10000;
 
-    for (int i = 1; i <= 5; i++) {
-        // TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-        std::cout << "i = " << i << std::endl;
+    MarketData marketDataHandler;
+
+    for (int i = 0; i < num_ticks; ++i) {
+        Timer timer;
+        timer.start();
+
+        marketDataHandler.handleTick();
+        //simulated tick + order match (replace with real logic)
+        OrderType order(i, "AAPL", 150 + (i%5), 100, i%2==0);
+        //simulate match logic here
+
+        latencies.push_back(timer.stop());
     }
 
-    return 0;
-    // TIP See CLion help at <a href="https://www.jetbrains.com/help/clion/">jetbrains.com/help/clion/</a>. Also, you can try interactive lessons for CLion by selecting 'Help | Learn IDE Features' from the main menu.
+    //analyze latency
+    auto min = *std::min_element(latencies.begin(), latencies.end());
+    auto max = *std::max_element(latencies.begin(), latencies.end());
+    double mean = std::accumulate(latencies.begin(), latencies.end(), 0.0)/latencies.size();
+
+    std::cout << "Tick-to-Trade Latency (nanoseconds) \n";
+    std::cout << "Min: " << min << " | Max: " << max <<  " | Mean: " << mean << "\n";
+
 }
