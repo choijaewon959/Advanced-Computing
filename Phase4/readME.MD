@@ -54,6 +54,26 @@ hft_project/
 ├── CMakeLists.txt
 └── README.md
 ```
+### Class-flow:
+```text
+Tick
+-> MarketDataHandler::handleTick();
+
+Order
+-> OrderBook::placeOrder()
+    -> buys / sells multimap
+    -> buyIndex / sellIndex
+    
+MatchingEngine::matchOrders()
+-> reads best bid/ask from OrderBook
+-> updates order state (filled, partial etc)
+-> creates trades
+-> writes logs
+
+Timer
+-> measures tick-to-trade latency
+```
+
 
 ### Output
 All the trading actions inclusing best bid/asks and matched trades are logged in logs.log. See logs.log for more deta

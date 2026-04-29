@@ -34,8 +34,8 @@ public:
             auto& buy = *(buyIt->second);
             auto& sell = *(sellIt->second);
 
-            book.logger.info("Best bid " + std::to_string(buy.price));
-            book.logger.info("Best ask " + std::to_string(sell.price));
+            //book.logger.info("Best bid " + std::to_string(buy.price));
+            //book.logger.info("Best ask " + std::to_string(sell.price));
 
             if (buy.price < sell.price) break;
 
@@ -49,8 +49,8 @@ public:
 
             trades.push_back({buy.id, sell.id, buy.symbol, sell.price, traded, std::chrono::duration_cast<std::chrono::nanoseconds>(end - start)});
 
-            book.logger.info("matched trade for " + buy.symbol + " at: " + std::to_string(sell.price) + "*" + std::to_string(traded) +
-                " between: " + std::to_string(buy.id) + " and " + std::to_string(sell.id));
+            //book.logger.info("matched trade for " + buy.symbol + " at: " + std::to_string(sell.price) + "*" + std::to_string(traded) +
+            //    " between: " + std::to_string(buy.id) + " and " + std::to_string(sell.id));
 
             if (buy.quantity == 0) {
                 buyIt->second->state = State::Filled;

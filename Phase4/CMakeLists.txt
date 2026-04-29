@@ -19,7 +19,7 @@ add_executable(Phase4 main.cpp
 )
 
 add_executable(test_latency test_latency.cpp
-        Timer.cpp
+        Timer.h
         TradeLogger.cpp
         MarketData.cpp
 )
