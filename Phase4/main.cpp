@@ -8,6 +8,7 @@
 #include "MarketData.h"
 #include "TradeLogger.h"
 #include "MatchingEngine.h"
+#include "OrderManager.h"
 
 using OrderType = Order<double, int>;
 
@@ -46,10 +47,11 @@ int main() {
     const int num_ticks = 10000;
 
     MarketDataHandler mkt;
-    TradeLogger logger("/Users/simorhazi/CLionProjects/advanced computing/Advanced-Computing/Phase4/logs.log");
+    TradeLogger logger("logs.log");
 
     OrderBook<double, int> orderBook(mkt, logger);
     MatchingEngine matchingEngine(orderBook);
+    OrderManager orderManager(orderBook);
 
     for (int i = 0; i < num_ticks; ++i) {
         Timer timer;
@@ -64,7 +66,7 @@ int main() {
 
         OrderType order{i, "AAPL", price, 100, isBuy};
 
-        orderBook.placeOrder(order);
+        orderManager.placeOrder(order);
         matchingEngine.matchOrders();
 
         latencies.push_back(timer.stop());
