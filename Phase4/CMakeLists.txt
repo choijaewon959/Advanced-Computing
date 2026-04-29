@@ -15,4 +15,13 @@ add_executable(Phase4 main.cpp
         MatchingEngine.cpp
         MatchingEngine.h
         TradeLogger.cpp
-        TradeLogger.h)
+        TradeLogger.h
+)
+
+add_executable(test_latency test_latency.cpp
+        Timer.cpp
+        TradeLogger.cpp
+        MarketData.cpp
+)
+
+target_include_directories(test_latency PRIVATE include)
