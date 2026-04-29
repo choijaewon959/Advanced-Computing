@@ -13,16 +13,16 @@ TradeLogger::~TradeLogger() {
 }
 
 void TradeLogger::info(const std::string& message) {
-    file << "[INFO]" << message << std::endl;
+    log("[INFO]" + message);
 }
 
 void TradeLogger::error(const std::string& message) {
-    file << "[ERROR]" << message << std::endl;
+    log("[ERROR]" + message);
 }
 
 void TradeLogger::flush() {
-    for (const auto& msg : buffer) {
-        file << msg << '\n';
+    for (const auto& message : buffer) {
+        file << message << '\n';
     }
     buffer.clear();
     file.flush();

@@ -18,4 +18,5 @@ double MarketDataHandler::get_best_bid() {
 }
 double MarketDataHandler::get_best_ask() {
     if (!asks.empty()) return asks.begin()->first;
+    return 0.0;
 }

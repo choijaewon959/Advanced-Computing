@@ -4,22 +4,40 @@
 #include <algorithm>
 #include "Order.h"
 #include "Timer.h"
+#include "OrderBook.h"
+#include "MarketData.h"
+#include "TradeLogger.h"
+#include "MatchingEngine.h"
 
 using OrderType = Order<double, int>;
 
 int main() {
     std::vector<long long> latencies;
+    latencies.reserve(10000);
+
     const int num_ticks = 10000;
 
-    MarketData marketDataHandler;
+    MarketDataHandler mkt;
+    TradeLogger logger("logs.log");
+
+    OrderBook<double, int> orderBook(mkt, logger);
+    MatchingEngine matchingEngine(orderBook);
 
     for (int i = 0; i < num_ticks; ++i) {
+        Timer timer;
         timer.start();
 
-        marketDataHandler.handleTick();
-        //simulated tick + order match (replace with real logic)
-        OrderType order(i, "AAPL", 150 + (i%5), 100, i%2==0);
-        //simulate match logic here
+        bool isBuy = (i%2==0);
+        double price = (i%2 == 0) ? 155.0 : 150.0;
+
+        Tick t{"AAPL", price, isBuy ? Side::Bid : Side::Ask, std::chrono::high_resolution_clock::now()};
+
+        mkt.handleTick(t);
+
+        OrderType order{i, "AAPL", price, 100, isBuy};
+
+        orderBook.placeOrder(order);
+        matchingEngine.matchOrders();
 
         latencies.push_back(timer.stop());
     }

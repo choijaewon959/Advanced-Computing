@@ -30,6 +30,7 @@ struct alignas(64) MarketData {
 class MarketDataHandler{
     std::map<double, std::vector<Tick>, std::greater<double>> bids;
     std::map<double, std::vector<Tick>> asks;
+
 public:
     void handleTick(const Tick& tick);
     double get_best_bid();

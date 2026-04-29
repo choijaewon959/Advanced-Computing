@@ -6,8 +6,6 @@
 #define PHASE4_ORDER_H
 #pragma once
 #include <string>
-#include <memory>
-#include "MarketData.h"
 #include <type_traits>
 
 enum class State {
