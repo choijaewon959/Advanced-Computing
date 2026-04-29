@@ -13,4 +13,6 @@ add_executable(Phase4 main.cpp
         OrderManager.cpp
         OrderManager.h
         MatchingEngine.cpp
-        MatchingEngine.h)
+        MatchingEngine.h
+        TradeLogger.cpp
+        TradeLogger.h)

@@ -15,18 +15,19 @@ struct TradeT {
     int quantity;
     std::chrono::nanoseconds latency;
 };
+
 template<typename PriceType, typename OrderIdType>
 class MatchingEngine {
-    using TradeT = TradeT<PriceType, OrderIdType>;
+    using tradeT = TradeT<PriceType, OrderIdType>;
 
     OrderBook<PriceType,OrderIdType>& book;
-    std::vector<TradeT> trades;
+    std::vector<tradeT> trades;
 
 public:
     MatchingEngine(OrderBook<PriceType, OrderIdType>& b);
 
     void matchOrders();
-    const std::vector<TradeT>& matchedTrades() const;
+    const std::vector<tradeT>& matchedTrades();
 };
 
 #endif //PHASE4_MATCHINGENGINE_H

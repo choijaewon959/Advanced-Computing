@@ -14,7 +14,6 @@ int main() {
     MarketData marketDataHandler;
 
     for (int i = 0; i < num_ticks; ++i) {
-        Timer timer;
         timer.start();
 
         marketDataHandler.handleTick();
