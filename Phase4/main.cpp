@@ -11,6 +11,34 @@
 
 using OrderType = Order<double, int>;
 
+void analyzeLatencies(std::vector<long long> latencies) {
+    if (latencies.empty()) return;
+
+    std::sort(latencies.begin(), latencies.end());
+
+    auto min=latencies.front();
+    auto max=latencies.back();
+
+    double mean = std::accumulate(latencies.begin(), latencies.end(), 0.0)/latencies.size();
+
+    double variance = 0.0;
+    for (auto l : latencies) {
+        variance+=(l-mean)*(l-mean);
+    }
+
+    variance /= latencies.size();
+    double stddev = std::sqrt(variance);
+
+    size_t p99Index = static_cast<size_t>(0.99*(latencies.size()-1));
+    long long p99 = latencies[p99Index];
+
+    std::cout << "Tick-to-Trade Latency (nanoseconds) \n";
+    std::cout << "Min: " << min
+              << "\nMax: " << max
+              << "\nMean: " << mean
+              << "\nStddev: " << stddev
+              << "\nP99: " << p99 << "\n";
+}
 int main() {
     std::vector<long long> latencies;
     latencies.reserve(10000);
@@ -18,7 +46,7 @@ int main() {
     const int num_ticks = 10000;
 
     MarketDataHandler mkt;
-    TradeLogger logger("logs.log");
+    TradeLogger logger("/Users/simorhazi/CLionProjects/advanced computing/Advanced-Computing/Phase4/logs.log");
 
     OrderBook<double, int> orderBook(mkt, logger);
     MatchingEngine matchingEngine(orderBook);
@@ -42,12 +70,5 @@ int main() {
         latencies.push_back(timer.stop());
     }
 
-    //analyze latency
-    auto min = *std::min_element(latencies.begin(), latencies.end());
-    auto max = *std::max_element(latencies.begin(), latencies.end());
-    double mean = std::accumulate(latencies.begin(), latencies.end(), 0.0)/latencies.size();
-
-    std::cout << "Tick-to-Trade Latency (nanoseconds) \n";
-    std::cout << "Min: " << min << " | Max: " << max <<  " | Mean: " << mean << "\n";
-
+    analyzeLatencies(latencies);
 }

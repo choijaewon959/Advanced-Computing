@@ -16,7 +16,7 @@ enum class State {
 };
 
 template <typename PriceType, typename OrderIdType>
-struct Order {
+struct alignas(64) Order {
     static_assert(std::is_integral<OrderIdType>::value, "OrderIdType must be an integer type");
 
     OrderIdType id;

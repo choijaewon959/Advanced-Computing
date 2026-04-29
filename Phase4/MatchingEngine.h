@@ -49,7 +49,7 @@ public:
 
             trades.push_back({buy.id, sell.id, buy.symbol, sell.price, traded, std::chrono::duration_cast<std::chrono::nanoseconds>(end - start)});
 
-            book.logger.info("matched trade for " + buy.symbol + " at: " + std::to_string(sell.price) +
+            book.logger.info("matched trade for " + buy.symbol + " at: " + std::to_string(sell.price) + "*" + std::to_string(traded) +
                 " between: " + std::to_string(buy.id) + " and " + std::to_string(sell.id));
 
             if (buy.quantity == 0) {
