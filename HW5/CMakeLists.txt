@@ -4,4 +4,5 @@ project(HW5)
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(HW5 main.cpp
-        hashtable.h)
+        hashtable.h
+        binaryheap.h)

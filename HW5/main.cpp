@@ -2,6 +2,7 @@
 #include <chrono>
 #include <vector>
 #include "hashtable.h"
+#include "binaryheap.h"
 
 long long timeNow() {
     return std::chrono::duration_cast<std::chrono::microseconds>(
@@ -9,9 +10,16 @@ long long timeNow() {
     ).count();
 }
 
+struct Compare {
+    bool operator()(Order a, Order b) {
+        return a.price < b.price; // max heap
+    }
+};
+
 int main() {
     const int N = 20000;
 
+    // Part 1: Robin Hood Hash Table
     RobinHoodHashTable table(50000);
     std::unordered_map<std::string, MarketData> stdMap;
 
@@ -63,6 +71,48 @@ int main() {
     if (!table.lookup("SYM10", data)) {
         std::cout << "Delete works\n";
     }
+
+    std::cout << "\n";
+
+    // Part 2: Priority Queue / Heap
+    MaxHeap myHeap;
+    std::priority_queue<Order, std::vector<Order>, Compare> stdHeap;
+
+    std::vector<Order> orders;
+
+    for (int i = 0; i < N; i++) {
+        orders.push_back({i, 100.0 + (i % 100)});
+    }
+
+    start = timeNow();
+    for (auto order : orders) {
+        myHeap.push(order);
+    }
+    end = timeNow();
+    std::cout << "Custom heap insert: " << end - start << " us\n";
+
+    start = timeNow();
+    for (auto order : orders) {
+        stdHeap.push(order);
+    }
+    end = timeNow();
+    std::cout << "std::priority_queue insert: " << end - start << " us\n";
+
+    start = timeNow();
+    while (!myHeap.empty()) {
+        myHeap.pop();
+    }
+    end = timeNow();
+    std::cout << "Custom heap pop: " << end - start << " us\n";
+
+    start = timeNow();
+    while (!stdHeap.empty()) {
+        stdHeap.pop();
+    }
+    end = timeNow();
+    std::cout << "std::priority_queue pop: " << end - start << " us\n";
+
+    std::cout << "Checksum: " << checksum << "\n";
 
     return 0;
 }
