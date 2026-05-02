@@ -3,6 +3,11 @@ project(HW5)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(HW5 main.cpp
+add_executable(HW5
+        main.cpp
         hashtable.h
-        binaryheap.h)
+        binaryheap.h
+        timeseries.h
+        orderbook.h)
+
+target_compile_options(HW5 PRIVATE -O3)

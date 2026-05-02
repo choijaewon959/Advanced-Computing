@@ -1,78 +1,99 @@
-//
-// Created by Jae Won Choi on 30/4/2026.
-//
+#ifndef BINARYHEAP_H
+#define BINARYHEAP_H
 
-#ifndef HW5_BINARYHEAP_H
-#define HW5_BINARYHEAP_H
 #include <vector>
-#include <queue>
 
 struct Order {
-    int id;
     double price;
+    int timestamp;
+
+    bool operator<(const Order& other) const {
+        return price < other.price; // max-heap by price
+    }
 };
 
-// Max heap for bids: highest price first
 class MaxHeap {
 private:
     std::vector<Order> heap;
 
-    bool better(Order a, Order b) {
-        return a.price > b.price;
+public:
+    MaxHeap() = default;
+
+    explicit MaxHeap(int capacity) {
+        heap.reserve(capacity);
     }
 
-public:
-    void push(Order order) {
+    bool empty() const {
+        return heap.empty();
+    }
+
+    int size() const {
+        return static_cast<int>(heap.size());
+    }
+
+    void push(const Order& order) {
         heap.push_back(order);
 
-        int i = heap.size() - 1;
+        int i = static_cast<int>(heap.size()) - 1;
+        Order value = heap[i];
 
         while (i > 0) {
             int parent = (i - 1) / 2;
 
-            if (better(heap[parent], heap[i])) {
+            if (!(heap[parent] < value)) {
                 break;
             }
 
-            std::swap(heap[parent], heap[i]);
+            heap[i] = heap[parent];
             i = parent;
         }
+
+        heap[i] = value;
     }
 
-    Order pop() {
-        Order best = heap[0];
+    const Order& top() const {
+        return heap[0];
+    }
 
-        heap[0] = heap.back();
+    void pop() {
+        if (heap.empty()) {
+            return;
+        }
+
+        Order value = heap.back();
         heap.pop_back();
 
+        if (heap.empty()) {
+            return;
+        }
+
         int i = 0;
+        int n = static_cast<int>(heap.size());
 
         while (true) {
             int left = 2 * i + 1;
-            int right = 2 * i + 2;
-            int bestChild = i;
+            int right = left + 1;
 
-            if (left < heap.size() && better(heap[left], heap[bestChild])) {
-                bestChild = left;
-            }
-
-            if (right < heap.size() && better(heap[right], heap[bestChild])) {
-                bestChild = right;
-            }
-
-            if (bestChild == i) {
+            if (left >= n) {
                 break;
             }
 
-            std::swap(heap[i], heap[bestChild]);
-            i = bestChild;
+            int child = left;
+
+            if (right < n && heap[left] < heap[right]) {
+                child = right;
+            }
+
+            if (!(value < heap[child])) {
+                break;
+            }
+
+            heap[i] = heap[child];
+            i = child;
         }
 
-        return best;
-    }
-
-    bool empty() {
-        return heap.empty();
+        heap[i] = value;
     }
 };
-#endif //HW5_BINARYHEAP_H
+
+#endif
