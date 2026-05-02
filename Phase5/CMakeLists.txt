@@ -5,4 +5,6 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_executable(Phase5 main.cpp
         OrderBook.cpp
-        OrderBook.h)
+        OrderBook.h
+        Timer.cpp
+        Timer.h)

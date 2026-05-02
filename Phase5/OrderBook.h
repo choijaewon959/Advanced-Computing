@@ -7,7 +7,6 @@
 #include <string>
 #include <map>
 #include <unordered_map>
-#include <vector>
 
 struct Order {
     std::string id;
@@ -17,10 +16,10 @@ struct Order {
 };
 
 class OrderBook {
+public:
     std::map<double, std::unordered_map<std::string, Order>> orderLevels;
     std::unordered_map<std::string, Order> orderLookup;
 
-public:
     void addOrder(const std::string& id, double price, int quantity, bool isBuy) {
         Order order{id, price, quantity, isBuy};
         orderLevels[price][id] = order;
@@ -28,17 +27,34 @@ public:
     }
     void deleteOrder(const std::string& id) {
         auto it = orderLookup.find(id);
+        auto levelIt = orderLevels.find(it->second.price);
+
         if (it != orderLookup.end()) {
-            orderLevels[it->second.price].erase(id);
+            levelIt->second.erase(id);
+            if (levelIt->second.empty()) {
+                orderLevels.erase(levelIt);
+            }
             orderLookup.erase(it);
         }
     }
-    void modifyOrder(const std::string& id, double pr, double qty) {
+    void modifyOrder(const std::string& id, double newPrice, int newQuantity) {
         auto it = orderLookup.find(id);
-        if (it != orderLookup.end()) {
-            orderLevels[it->second.price].erase(id);
-            addOrder(id, pr, qty, it->second.isBuy);
+        if (it == orderLookup.end()) return;
+
+        bool isBuy = it->second.isBuy;
+        double oldPrice = it->second.price;
+
+        auto levelIt = orderLevels.find(oldPrice);
+        if (levelIt != orderLevels.end()) {
+            levelIt->second.erase(id);
+            if (levelIt->second.empty()) {
+                orderLevels.erase(levelIt);
+            }
         }
+
+        Order updated {id, newPrice, newQuantity, isBuy};
+        orderLevels[newPrice][id] = updated;
+        orderLookup[id] = updated;
     }
 };
 
