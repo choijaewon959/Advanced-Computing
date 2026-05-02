@@ -1,2 +1,5 @@
 .DS_Store
 cmake-build-debug
+.DS_Store
+cmake-build-debug
+*.o
