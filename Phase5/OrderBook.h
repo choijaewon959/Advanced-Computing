@@ -7,6 +7,7 @@
 #include <string>
 #include <map>
 #include <unordered_map>
+#include <atomic>
 
 struct Order {
     std::string id;
@@ -19,11 +20,14 @@ class OrderBook {
 public:
     std::map<double, std::unordered_map<std::string, Order>> orderLevels;
     std::unordered_map<std::string, Order> orderLookup;
+    std::atomic<int> orderCount{0};
 
     void addOrder(const std::string& id, double price, int quantity, bool isBuy) {
         Order order{id, price, quantity, isBuy};
         orderLevels[price][id] = order;
         orderLookup[id] = order;
+
+        orderCount.fetch_add(1, std::memory_order_relaxed);
     }
     void deleteOrder(const std::string& id) {
         auto it = orderLookup.find(id);
@@ -35,6 +39,8 @@ public:
                 orderLevels.erase(levelIt);
             }
             orderLookup.erase(it);
+
+            orderCount.fetch_sub(1, std::memory_order_relaxed);
         }
     }
     void modifyOrder(const std::string& id, double newPrice, int newQuantity) {
@@ -55,6 +61,9 @@ public:
         Order updated {id, newPrice, newQuantity, isBuy};
         orderLevels[newPrice][id] = updated;
         orderLookup[id] = updated;
+    }
+    int getOrderCount() const {
+        return orderCount.load(std::memory_order_relaxed);
     }
 };
 

@@ -7,20 +7,27 @@
 #include <vector>
 #include "OrderBook.h"
 class OptimizedOrderBook {
-    std::vector<Order> orderPool;
     OrderBook& orderBook;
+
+public:
+    std::vector<Order> orderPool;
 
     void handleOrder(const Order& order) {
         orderBook.addOrder(order.id, order.price, order.quantity, order.isBuy);
     }
-public:
+
     OptimizedOrderBook(size_t size, OrderBook& ob) : orderBook(ob) {
         orderPool.reserve(size);
     }
     void processOrders(const std::vector<Order>& orders) {
         for (size_t i=0; i<orders.size(); i+=2) {
-            handleOrder(orders[i]);
-            if (i+1 < orders.size()) handleOrder(orders[i+1]);
+            orderPool.push_back(orders[i]);
+            handleOrder(orderPool.back());
+
+            if (i+1 < orders.size()) {
+                orderPool.push_back(orders[i+1]);
+                handleOrder(orderPool.back());
+            }
         }
     }
 };

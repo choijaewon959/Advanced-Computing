@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <cmath>
 #include <vector>
-#inlude "Optimize
+#include "OptimizedOrderBook.h"
 
 struct stats {
     double mean;
@@ -36,11 +36,19 @@ int main() {
 
     OrderBook orderBook;
     Timer timer;
-    O
+    OptimizedOrderBook optiBook(ticks, orderBook);
+
+    std::vector<Order> orders;
+    orders.reserve(ticks);
 
     for (int i = 0; i < ticks; ++i) {
-        orderBook.addOrder(std::to_string(i), (i%2 == 0) ? 150.0 : 155.0, 100, i%2);
+        //orderBook.addOrder(std::to_string(i), (i%2 == 0) ? 150.0 : 155.0, 100, i%2);
+        orders.push_back({std::to_string(i), (i%2 == 0) ? 150.0 : 155.0, 100, i%2 == 1});
     }
+
+    optiBook.processOrders(orders);
+
+    std::cout << "order count: " << orderBook.getOrderCount() << std::endl;
 
     std::vector<std::string> ids;
     ids.reserve(ticks);
@@ -60,6 +68,7 @@ int main() {
 
         latencies.push_back(timer.stop());
     }
+
 
     std::cout << "LATENCIES in LOOKUP\n";
     stats lat = benchmark(latencies);

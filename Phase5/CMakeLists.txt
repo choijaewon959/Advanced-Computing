@@ -10,3 +10,6 @@ add_executable(Phase5 main.cpp
         Timer.h
         OptimizedOrderBook.cpp
         OptimizedOrderBook.h)
+
+add_executable(tests
+        test_accuracy.cpp)
