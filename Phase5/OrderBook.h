@@ -59,5 +59,4 @@ public:
 };
 
 
-
 #endif //PHASE5_ORDERBOOK_H

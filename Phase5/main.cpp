@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <cmath>
 #include <vector>
+#inlude "Optimize
 
 struct stats {
     double mean;
@@ -35,6 +36,7 @@ int main() {
 
     OrderBook orderBook;
     Timer timer;
+    O
 
     for (int i = 0; i < ticks; ++i) {
         orderBook.addOrder(std::to_string(i), (i%2 == 0) ? 150.0 : 155.0, 100, i%2);

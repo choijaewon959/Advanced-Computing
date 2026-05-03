@@ -7,4 +7,6 @@ add_executable(Phase5 main.cpp
         OrderBook.cpp
         OrderBook.h
         Timer.cpp
-        Timer.h)
+        Timer.h
+        OptimizedOrderBook.cpp
+        OptimizedOrderBook.h)
