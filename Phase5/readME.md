@@ -11,3 +11,50 @@ The project covers the following:
 - optimization of the order book to achieve the maximum speed and efficiency
 - stress testing using generated orders to evaluate scalability 
 - a report with execution time results and a performance chart
+
+### Architecture
+
+``````````
+ --------              ------------------
+|OrderBook|---------->|OptimizedOrderBook|
+ --------              ------------------
+      |      --------           |
+      ----->|  main  |<----------
+      |      --------
+      |      
+ ----------          ------------------
+|  Timer   |        |  test_accuracy   |
+ ----------          ------------------
+``````````
+
+### Project structure
+```text
+Phase5/
+|--img
+|--readME.md
+|--CMakeLists.txt
+|--report.md
+|
+|--main.cpp
+|--OptimizedOrderBook.cpp
+|--OptimizedOrderBook.h
+|--OrderBook.cpp
+|--OrderBook.h
+|--Timer.cpp
+|--Timer.h
+|--test_accuracy.cpp
+
+```
+
+### How to Run
+Build
+```Bash
+mkdir build
+cd build
+cmake ..
+make
+```
+Run
+```Bash
+./your_executable_name
+```

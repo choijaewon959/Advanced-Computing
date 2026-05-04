@@ -6,6 +6,7 @@
 #include <cmath>
 #include <vector>
 #include "OptimizedOrderBook.h"
+#include <random>
 
 struct stats {
     double mean;
@@ -30,34 +31,78 @@ stats benchmark(const std::vector<double>& latencies) {
     return {mean, stddev, maxe, mine};
 }
 
+std::vector<Order> generateOrders(int numOrders) {
+    std::mt19937 rng(std::random_device{}());
+    std::uniform_real_distribution<double> priceDist(50.0, 100.0);
+    std::uniform_int_distribution<int> quantityDist(1,500);
+    std::bernoulli_distribution sideDist(0.5);
+
+    std::vector<Order> orders;
+
+    for (int i = 0; i < numOrders; ++i) {
+        orders.push_back(
+            {"ORD" + std::to_string(i)
+                , priceDist(rng)
+                , quantityDist(rng)
+                , sideDist(rng)
+            });
+    }
+    return orders;
+}
+
 int main() {
 
-    int ticks = 10000;
+    int ticks = 100000;
 
     OrderBook orderBook;
     Timer timer;
-    OptimizedOrderBook optiBook(ticks, orderBook);
 
-    std::vector<Order> orders;
-    orders.reserve(ticks);
+    std::vector<Order> orders = generateOrders(ticks);
+    /*
 
-    for (int i = 0; i < ticks; ++i) {
-        //orderBook.addOrder(std::to_string(i), (i%2 == 0) ? 150.0 : 155.0, 100, i%2);
-        orders.push_back({std::to_string(i), (i%2 == 0) ? 150.0 : 155.0, 100, i%2 == 1});
+    //baseline timer
+    timer.start();
+    for (const auto& od : orders) {
+        orderBook.addOrder(od.id, od.price, od.quantity, od.isBuy);
     }
+    std::cout << "baseline latency: " << timer.stop() << std::endl;
 
+    */
+    //include Pooling
+    std::vector<Order> basePool;
+    basePool.reserve(orders.size());
+
+    timer.start();
+    for (const auto& od : orders) {
+        basePool.push_back(od);
+        orderBook.addOrder(basePool.back().id,
+                           basePool.back().price,
+                           basePool.back().quantity,
+                           basePool.back().isBuy);
+    }
+    double baseTime = timer.stop();
+
+    std::cout << "baseTime(pooling): " << baseTime << std::endl;
+
+    OrderBook optStorage;
+    OptimizedOrderBook optiBook(ticks, optStorage);
+
+    //optimized timer
+    timer.start();
     optiBook.processOrders(orders);
+    std::cout << "optimized latency: " << timer.stop() << std::endl;
 
     std::cout << "order count: " << orderBook.getOrderCount() << std::endl;
 
     std::vector<std::string> ids;
     ids.reserve(ticks);
     for (int i = 0; i < ticks; ++i) {
-        ids.push_back(std::to_string(i));
+        ids.push_back("ORD" + std::to_string(i));
     }
     std::vector<double> latencies;
 
     for (int i = 0; i < ticks; ++i) {
+        //post storage lookup timer
         timer.start();
 
         auto it = orderBook.orderLookup.find(ids[i]);
@@ -70,8 +115,7 @@ int main() {
     }
 
 
-    std::cout << "LATENCIES in LOOKUP\n";
     stats lat = benchmark(latencies);
-    std::cout << "MEAN: " << lat.mean << " stddev " << lat.stddev << " maxe " << lat.maxe << " mine " << lat.mine << std::endl;
+    std::cout << "lookup latency: " << "MEAN: " << lat.mean << " stddev " << lat.stddev << " maxe " << lat.maxe << " mine " << lat.mine << std::endl;
 
 }

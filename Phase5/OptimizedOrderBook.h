@@ -12,13 +12,14 @@ class OptimizedOrderBook {
 public:
     std::vector<Order> orderPool;
 
+    OptimizedOrderBook(size_t size, OrderBook& ob) : orderBook(ob) {
+        orderPool.reserve(size);
+    }
+
     void handleOrder(const Order& order) {
         orderBook.addOrder(order.id, order.price, order.quantity, order.isBuy);
     }
 
-    OptimizedOrderBook(size_t size, OrderBook& ob) : orderBook(ob) {
-        orderPool.reserve(size);
-    }
     void processOrders(const std::vector<Order>& orders) {
         for (size_t i=0; i<orders.size(); i+=2) {
             orderPool.push_back(orders[i]);
