@@ -52,7 +52,7 @@ std::vector<Order> generateOrders(int numOrders) {
 
 int main() {
 
-    int ticks = 100000;
+    int ticks = 1000000;
 
     OrderBook orderBook;
     Timer timer;
